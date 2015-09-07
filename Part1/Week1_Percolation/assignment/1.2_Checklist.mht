@@ -1,0 +1,1183 @@
+From: <Saved by Maxthon>
+Subject: Programming Assignment 1 Checklist: Percolation
+Date: Tue, 7 Sep 2015 15:28:04 +0800
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----=_NextPart_000_58BF_2B70E9E4.92FA8AC3"
+
+------=_NextPart_000_58BF_2B70E9E4.92FA8AC3
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://coursera.cs.princeton.edu/algs4/checklists/percolation.html
+
+<html><head><meta charset=3D"UTF-8">
+<title>
+Programming Assignment 1 Checklist: Percolation
+</title>
+</head>
+
+<body>
+<h3>
+Programming Assignment 1 Checklist: Percolation
+</h3>
+
+<p>
+<br>
+
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center><b>Frequently Asked Questions (General)</b></center>
+</font></td></tr></tbody></table>
+
+</p><p><b>What's a checklist?</b>
+The assignment provides the programming assignment specification;
+the checklist provides clarifications, test data, and hints that might be
+helpful in completing the assignment.
+
+</p><p><b>Which Java programming environment should I use?</b>
+For novices, we recommend the lightweight IDE <a href=3D"http://www.drjava.=
+org/">DrJava</a>
+along with the command line.
+If you use our Mac OS X or Windows installer, then everything should be
+configured and ready to go.
+If you prefer to use a different IDE (such as Eclipse), that's perfectly
+fine too=E2=80=94just be sure that you know how to do the following:
+</p><ul>
+<p></p><li>Add <tt>algs4.jar</tt> to your Java classpath.
+<p></p></li><li>Enter command-line arguments.
+<p></p></li><li>Use standard input and standard output (and, ideally, redir=
+ect them to or from a file).
+</li></ul>
+
+
+
+<p><b>Where can I find the Java code and Javadoc for the algorithms and dat=
+a structures
+from lecture and the textbook?</b>
+They are in <tt>algs4.jar</tt>.
+Here are the <a href=3D"http://algs4.cs.princeton.edu/code/index.php">APIs<=
+/a><a>.
+
+</a></p><p><a><b>Where can I find the Javadoc for the input and output libr=
+aries
+from lecture and the textbook?</b>
+They are in <tt>algs4.jar</tt>.
+Here are the </a><a href=3D"http://algs4.cs.princeton.edu/code/index.php#st=
+dlib">APIs</a><a>.
+
+</a></p><p><a><b>How can I classpath in the textbook libraries from the com=
+mand line?</b>
+If you use our Mac OS X or Windows installer, then you can automatically cl=
+asspath
+in the textbook libraries using the commands <tt>javac-algs4</tt> and <tt>j=
+ava-algs4</tt>
+(instead of <tt>javac</tt> and <tt>java</tt>).
+
+</a></p><p><a><b>I haven't programmed in Java in a while. What material do=
+=20
+I need to remember?</b>
+For a review of our Java programming model (including our input and output =
+libraries),
+read Sections 1.1 and 1.2 of  <em>Algorithms, 4th Edition</em>.
+
+</a></p><p><a><b>Can I use various Java libraries in this assignment, such =
+as <tt>java.util.LinkedList</tt>,
+<tt>java.util.ArrayList</tt>, <tt>java.util.TreeMap</tt>, and
+<tt>java.util.HashMap</tt>?</b>
+No. You should not use any Java libraries until we have implemented equival=
+ent
+versions in lecture.
+Once we have introduced them in lecture, you are free to use either the Jav=
+a
+library version or our equivalent.
+You are welcome to use classes in the Java language such as <tt>Math.sqrt()=
+</tt>
+and <tt>Integer.parseInt()</tt>.
+
+</a></p><p><a><b>How do I throw a java.lang.IndexOutOfBoundsException?</b>
+Use a <tt>throw</tt> statement like the following:
+
+</a></p><blockquote><a>
+<pre>if (i &lt;=3D 0 || i &gt; N) throw new IndexOutOfBoundsException("row =
+index i out of bounds");</pre>
+</a></blockquote><a>
+
+Your code should not attempt to catch any exceptions=E2=80=94this will inte=
+rfere
+with our grading scripts.
+
+
+</a><p><a><b>How should I format and comment my code?</b>
+Here are some recommended </a><a href=3D"http://introcs.cs.princeton.edu/11=
+style/">style guidelines</a>.
+Below are some that are particularly important (though we will not deduct f=
+or style in this course).
+
+</p><ul>
+<p></p><li> Include a bold (or Javadoc)
+comment at the beginning of each file with your name,
+date, the purpose of the program, and how to execute it.
+
+<p></p></li><li> Include a bold (or Javadoc) comment describing every metho=
+d.
+
+<p></p></li><li> Include a comment describing every instance variable.
+
+<p></p></li><li> Indent consistently, using 3 or 4 spaces for each indentat=
+ion level.
+Do not use hard tabs.
+
+<p></p></li><li> Do not exceed 80 characters per line. This rule also appli=
+es to the
+<tt>readme.txt</tt> file.
+
+<p></p></li><li> Avoid unexplained magic numbers, especially ones that are =
+used
+more than once.
+
+</li></ul>
+
+
+<p>
+<br>
+
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center><b>Frequently Asked Questions (Percolation)</b></center>
+</font></td></tr></tbody></table>
+
+
+</p><p><b>What are the goals of this assignment?</b>
+</p><ul>
+<p></p><li> Set up a Java programming environment.
+
+<p></p></li><li> Use our input and output libraries.
+
+<p></p></li><li> Learn about a scientific application of the union=E2=80=93=
+find data structure.
+
+<p></p></li><li> Measure the running time of a program and use the doubling=
+ hypothesis
+to make predictions.
+
+<p></p></li><li> Measure the amount of memory used by a data structure.
+
+</li></ul>
+
+<p><b>Can I add (or remove) methods to (or from) Percolation?</b>
+No. You must implement the <tt>Percolation</tt> API exactly as specified, w=
+ith the=20
+identical set of public methods and signatures or your assignment will not =
+be graded.
+However, you are
+encouraged to add private methods that enhance the readability, maintainabi=
+lity,
+and modularity of your program.
+The one exception is <tt>main()</tt>=E2=80=94you are always permitted to
+add this method to test your code, but we will not call it unless we specif=
+y
+it in our API.
+
+</p><p><b>Can my Percolation data type assume the row and column
+indices are between 0 and N=E2=88=921?</b>
+No. The API specifies that valid row and column indices are between 1 and <=
+em>N</em>.
+
+</p><p><b>Why is it so important to implement the prescribed API?</b>
+Writing to an API is an important skill to master
+ because it is an essential component of modular programming,
+whether you are developing software by yourself or as part of a group. When=
+=20
+you develop a module that properly implements an API, anyone using that mod=
+ule (including=20
+yourself, perhaps at some later time) does not need to revisit the details =
+of the
+code for that module when using it.
+This approach greatly simplifies writing large programs, developing=20
+software as part of a group, or developing software for use by others.
+<!--
+For example, the correctness of your program relies on
+<tt>WeightQuickUnionUF</tt> implementing its documented API.
+-->
+
+</p><p>
+Most important, when you properly implement an API, others can write
+software to use your module or to test it.
+We do this regularly when grading your programs. For example, your=20
+<tt>PercolationStats</tt> client should work with our
+<tt>Percolation</tt> data type and vice versa. If you add an extra public
+method to <tt>Percolation</tt> and call them from <tt>PercolationStats</tt>=
+,
+then your client won't work with our <tt>Percolation</tt> data type.
+Conversely, our <tt>PercolationStats</tt> client may not work with your=20
+<tt>Percolation</tt> data type if you remove a public method.
+
+
+</p><p><b>How many lines of code should my program be?</b>
+You should strive for clarity and efficiency. Our reference solution for
+<tt>Percolation.java</tt> is about 70 lines, plus a test client.
+Our <tt>PercolationStats.java</tt> client is about 50 lines.
+If you are re-implementing the union-find data structure
+(instead of reusing the implementations provided), you are on the wrong tra=
+ck.
+
+
+</p><p><b>What assumptions can I make about the input to main() in Percolat=
+ionStats?</b>
+It can be any valid input: an integer <em>N</em> =E2=89=A5 1
+and an integer <em>T</em> =E2=89=A5 1.
+In general, in this course you can assume that the input is of the specifie=
+d=20
+format. But you do need to deal with pathological cases such as <em>N</em> =
+=3D 1.
+
+
+</p><p><b>What should <tt>stddev()</tt> return if <em>T</em> equals 1?</b>
+The sample standard deviation is undefined. We recommend returning <tt>Doub=
+le.NaN</tt>.
+
+</p><p><b>After the system has percolated, my PercolationVisualizer colors =
+in light blue
+all sites connected to open sites on the bottom (in addition to those conne=
+cted to open sites
+on the top). Is this "backwash" acceptable?</b>
+No, this is likely a bug in <tt>Percolation</tt>. It is only a minor deduct=
+ion
+(because it impacts only the visualizer and not the experiment to estimate
+the percolation threshold), so don't go crazy trying to get this detail.
+However, many students consider this to be the most challenging and creativ=
+e
+part of the assignment (especially if you limit yourself to one union-find =
+object).
+
+
+</p><p>
+</p><blockquote>
+<pre>&nbsp;&nbsp; % <b>java PercolationVisualizer input10.txt</b></pre>
+<img src=3D"http://coursera.cs.princeton.edu/algs4/checklists/percolation-b=
+ackwash.png" alt=3D"Percolation backwash">
+</blockquote>
+
+<p><b>How do I generate a site uniformly at random among all blocked sites
+for use in PercolationStats?</b>
+Pick a site at random (by using <tt>StdRandom</tt> to generate two
+integers between 1 and <em>N</em>) and use this site if it is blocked; if n=
+ot, repeat.
+
+</p><p><b>I don't get reliable timing information in PercolationStats when =
+<em>N</em> =3D 200.
+What should I do?</b>
+Increase the size of <em>N</em> (say to 400, 800, and 1600), until
+the mean running time exceeds its standard deviation.
+
+<!--
+<p><b>How should I compute the mean and standard deviation?</b>
+Don't reinvent the wheel&mdash;use <tt>StdStats.mean()</tt>
+and <tt>StdStats.stddev()</tt>, respectively.
+-->
+
+</p><p><br>
+
+
+
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center><b>Style and Bug Checkers</b></center>
+</font></td></tr></tbody></table>
+
+</p><p>
+
+
+</p><p><b>Style checker.</b>
+We recommend using <a href=3D"http://checkstyle.sourceforge.net/">Checkstyl=
+e 6.9</a>
+(and the configuration file
+<a href=3D"http://algs4.cs.princeton.edu/mac/checkstyle.xml">checkstyle.xml=
+</a>)
+to check the style of your Java programs.
+Here is a list of available=20
+<a href=3D"http://checkstyle.sourceforge.net/availablechecks.html">Checksty=
+le checks</a>.
+
+</p><p><b>Bug checker.</b>
+We recommend using <a href=3D"http://findbugs.sourceforge.net/">FindBugs 2.=
+0.3</a>=20
+(and the configuration file <a href=3D"http://algs4.cs.princeton.edu/mac/fi=
+ndbugs.xml">findbugs.xml</a>)
+to identify common bug patterns in your code.
+Here is a summary of <a href=3D"http://findbugs.sourceforge.net/bugDescript=
+ions.html">FindBugs
+Bug descriptions</a>.
+
+</p><p><b>Mac OS X and Windows installer.</b>
+If you used our Mac OS X or Windows installer, these programs are already i=
+nstalled
+as command-line utilities.
+You can check a single file or multiple files via the commands:
+
+</p><blockquote>
+<pre>% <b>checkstyle-algs4 HelloWorld.java</b>
+% <b>checkstyle-algs4 *.java</b>
+
+% <b>findbugs-algs4 HelloWorld.class</b>
+% <b>findbugs-algs4 *.class</b>
+</pre>
+</blockquote>
+
+Note that Checkstyle inspects the source code; Findbugs inspects the compil=
+ed code.
+
+<p><b>Eclipse.</b>
+For Eclipse users,
+there is a <a href=3D"http://eclipse-cs.sourceforge.net/">Checkstyle plugin
+for Eclipse</a>
+and a <a href=3D"http://findbugs.cs.umd.edu/eclipse">Findbugs plugin for Ec=
+lipse</a>.
+
+
+</p><p><b>Caveat.</b>
+The appearance of a warning message does not necessarily lead to
+a deduction (and, in some cases, it does not even indicate an error).
+
+
+
+</p><p><br>
+
+
+
+
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center><b>Testing</b></center>
+</font></td></tr></tbody></table>
+
+
+</p><p><b>Testing.</b>
+
+We provide two clients that serve as large-scale visual traces.
+We highly recommend using them for testing and debugging your=20
+<tt>Percolation</tt> implementation.
+
+</p><p><b>Visualization client.</b>
+<a href=3D"http://coursera.cs.princeton.edu/algs4/testing/percolation/Perco=
+lationVisualizer.java">PercolationVisualizer.java</a> animates the
+results of opening sites in a percolation system specified by a file by per=
+forming the following steps:
+
+</p><ul>
+
+<p></p><li>
+Read the grid size <em>N</em> from the file.
+
+<p></p></li><li>
+Create an <em>N</em>-by-<em>N</em> grid of sites (initially all blocked).
+
+<p></p></li><li>
+Read in a sequence of sites (row <em>i</em>, column <em>j</em>) to open fro=
+m the file.
+After each site is opened, draw full sites in light blue, open sites (that =
+aren't full) in white, and
+blocked sites in black using <em>standard draw</em>, with with site (1, 1) =
+in the upper left-hand corner.
+
+</li></ul>
+
+The program should behave as in=20
+<a href=3D"http://coursera.cs.princeton.edu/algs4/checklists/percolation20-=
+by-20.mov">this movie</a> and the following snapshots
+when used with <a href=3D"http://coursera.cs.princeton.edu/algs4/testing/pe=
+rcolation/input20.txt">input20.txt</a>.
+
+<blockquote><pre>% <b>java PercolationVisualizer input20.txt</b>
+</pre></blockquote>
+
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0">
+<tbody><tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</td><td><img src=3D"http://coursera.cs.princeton.edu/algs4/checklists/perc=
+olation-50.png" alt=3D"Percolation 50 sites">
+<br><center><font size=3D"-1"><em>50 open sites</em></font></center>
+</td><td><img src=3D"http://coursera.cs.princeton.edu/algs4/checklists/perc=
+olation-100.png" alt=3D"Percolation 100 sites">
+<br><center><font size=3D"-1"><em>100 open sites</em></font></center>
+</td><td><img src=3D"http://coursera.cs.princeton.edu/algs4/checklists/perc=
+olation-150.png" alt=3D"Percolation 150 sites">
+<br><center><font size=3D"-1"><em>150 open sites</em></font></center>
+</td><td><img src=3D"http://coursera.cs.princeton.edu/algs4/checklists/perc=
+olation-204.png" alt=3D"Percolation 204 sites">
+<br><center><font size=3D"-1"><em>204 open sites</em></font></center>
+</td><td><img src=3D"http://coursera.cs.princeton.edu/algs4/checklists/perc=
+olation-250.png" alt=3D"Percolation 250 sites">
+<br><center><font size=3D"-1"><em>250 open sites</em></font></center>
+</td></tr>
+</tbody></table>
+
+
+<p><b>Sample data files.</b>
+The directory
+<a href=3D"http://coursera.cs.princeton.edu/algs4/testing/percolation/">per=
+colation</a>
+contains some sample files for use with the visualization client.
+Associated with each input <tt>.txt</tt> file is an output <tt>.png</tt> fi=
+le that contains the
+desired graphical output at the end of the animation.
+For convenience, <a href=3D"http://coursera.cs.princeton.edu/algs4/testing/=
+percolation-testing.zip">percolation-testing.zip</a>
+contains all of these files bundled together.
+
+
+</p><p><b>InteractiveVisualization client.</b>
+<a href=3D"http://coursera.cs.princeton.edu/algs4/testing/percolation/Inter=
+activePercolationVisualizer.java">InteractivePercolationVisualizer.java</a>=
+ is similar
+to the first test client except that the input comes from a mouse (instead =
+of from a file).
+It takes a command-line integer <em>N</em> that specifies the lattice size.
+As a bonus, it writes to standard output the sequence of sites opened in th=
+e same format used by
+<tt>PercolationVisualizer</tt>, so you can use it to prepare interesting fi=
+les for testing.
+If you design an interesting data file, feel free to share it with us and y=
+our classmates by posting it
+in the discussion forums.
+
+</p><p><br>
+
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center><b>Possible Progress Steps</b></center>
+</font></td></tr></tbody></table>
+</p><p>
+
+These are purely suggestions for how you might make progress.  You do
+not have to follow these steps.
+
+</p><ol>
+
+<p></p><li><b>Consider not worrying about backwash for your first attempt.<=
+/b> If you're feeling overwhelmed, don't worry about backwash when followin=
+g the possible progress steps below. You can revise your implementation onc=
+e you have a better handle on the problem and have solved the problem witho=
+ut handling backwash.
+
+<p></p></li><li><b>For each method in <tt>Percolation</tt> that you must im=
+plement (<tt>open()</tt>, <tt>percolates()</tt>, etc.), make a list of whic=
+h <tt>WeightedQuickUnionUF</tt> methods might be useful for implementing th=
+at method.</b> This should help solidify what you're attempting to accompli=
+sh.=20
+
+<p></p></li><li><b>Using the list of methods above as a guide, choose insta=
+nce variables that you'll need to solve the problem.</b> Don't overthink th=
+is, you can always change them later. Instead, use your list of instance va=
+riables to guide your thinking as you follow the steps below, and make chan=
+ges to your instance variables as you go. Hint: At minimum, you'll need to =
+store the grid size, which sites are open, and which sites are connected to=
+ which other sites. The last of these is exactly what the union-find data s=
+tructure is designed for.
+
+<p></p></li><li>
+<b>Plan how you're going to map from a 2-dimensional (row, column) pair
+to a 1-dimensional union find object index.</b>
+You will need to come up with a scheme for uniquely=20
+mapping 2D coordinates to 1D coordinates. We recommend writing a private me=
+thod with a=20
+signature along the lines of <tt>int xyTo1D(int, int)</tt> that performs th=
+is conversion. You=20
+will need to utilize the percolation grid size when writing this method. Wr=
+iting such a=20
+private method (instead of copying and pasting a conversion formula multipl=
+e times throughout=20
+your code) will greatly improve the readability and maintainability of your=
+ code. In general,=20
+we encourage you to write such modules wherever possible. Directly test thi=
+s method using the=20
+main() function of Percolation.
+
+<p></p></li><li><b>Write a private method for validating indices.</b> Since=
+ each method is supposed to throw an exception for invalid indices, you sho=
+uld write a private method which performs this validation process.=20
+
+<p></p></li><li><b>Write the <tt>open()</tt> method and the <tt>Percolation=
+()</tt> constructor.</b> The open() method should do three things. First, i=
+t should validate the indices of the site that it receives. Second, it shou=
+ld somehow mark the site as open. Third, it should perform some sequence of=
+ <tt>WeightedQuickUnionUF</tt> operations that links the site in question t=
+o its open neighbors. The constructor and instance variables should facilit=
+ate the <tt>open()</tt> method's ability to do its job.=20
+
+<p></p></li><li><b>Test the <tt>open()</tt> method and the <tt>Percolation(=
+)</tt> constructor.</b> These tests should be in <tt>main()</tt>. An exampl=
+e of a simple test is to call <tt>open(1, 1)</tt> and <tt>open(1, 2)</tt>, =
+and then to ensure that the two corresponding entries are connected (using =
+<tt>.connected()</tt> in <tt>WeightedQuickUnionUF</tt>).
+
+<p></p></li><li><b>Write the <tt>percolates()</tt>, <tt>isOpen()</tt>, and =
+<tt>isFull()</tt> methods.</b> These should be very simple methods.=20
+
+<p></p></li><li><b>Test your complete implementation using the visualizatio=
+n clients.</b>=20
+
+<p></p></li><li><b>Write and test the PercolationStats class.</b>=20
+
+</li></ol>
+
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center><b>Programming Tricks and Common Pitfalls</b></center>
+</font></td></tr></tbody></table>
+<p>
+
+</p><ol>
+	<p></p><li><b>Do not write your own union=E2=80=93find data structure. Use=
+ <tt>WeightedQuickUnionUF</tt> instead.</b>=20
+	<p></p></li><li><b>Your <tt>Percolation</tt> class must use=20
+                  <a href=3D"http://algs4.cs.princeton.edu/code/javadoc/edu=
+/princeton/cs/algs4/WeightedQuickUnionUF.html"><tt>WeightedQuickUnionUF</tt=
+></a>.</b>
+                  Otherwise, it will fail the timing tests, as the autograd=
+er intercepts and counts calls to methods in <tt>WeightedQuickUnionUF</tt>.
+	<p></p></li><li><b>It's OK to use an extra row and/or column to deal with =
+the 1-based indexing of the
+                  percolation grid.</b> Though it is slightly inefficient, =
+it's fine to use arrays or union-find objects that are slightly larger than=
+ strictly necessary. Doing this results in cleaner code at the cost
+                  of slightly greater memory usage.
+	<p></p></li><li><b>Each of the methods (except the constructor) in <tt>Per=
+colation</tt> must use a constant number of union-find operations.</b> If y=
+ou have a for-loop inside of one of your <tt>Percolation</tt> methods, you'=
+re probably doing it wrong. Don't forget about the virtual-top / virtual-bo=
+ttom trick described in lecture.
+=09
+</li></ol>
+
+
+
+
+</body></html>
+------=_NextPart_000_58BF_2B70E9E4.92FA8AC3
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://coursera.cs.princeton.edu/algs4/checklists/percolation-backwash.png
+
+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
+------=_NextPart_000_58BF_2B70E9E4.92FA8AC3
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://coursera.cs.princeton.edu/algs4/checklists/percolation-50.png
+
+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
+------=_NextPart_000_58BF_2B70E9E4.92FA8AC3
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://coursera.cs.princeton.edu/algs4/checklists/percolation-100.png
+
+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
+TkSuQmCC
+------=_NextPart_000_58BF_2B70E9E4.92FA8AC3
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://coursera.cs.princeton.edu/algs4/checklists/percolation-150.png
+
+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
+SUVORK5CYII=
+------=_NextPart_000_58BF_2B70E9E4.92FA8AC3
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://coursera.cs.princeton.edu/algs4/checklists/percolation-204.png
+
+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
+------=_NextPart_000_58BF_2B70E9E4.92FA8AC3
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://coursera.cs.princeton.edu/algs4/checklists/percolation-250.png
+
+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
+AxAabb22fwNg0GgbOh9QAgAAAABJRU5ErkJggg==
+------=_NextPart_000_58BF_2B70E9E4.92FA8AC3--
