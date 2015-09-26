@@ -10,14 +10,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private class RandomInterator implements Iterator<Item>
     {
         private int i;
-        private Item[] itItems;
+        private int[] poses;
         
         public RandomInterator() {
             if (sz > 1) {               
-               itItems = (Item[]) new Object[sz];
-               for (int i = 0; i < sz; i++)
-                   itItems[i] = items[i];
-               StdRandom.shuffle(itItems, 0, sz -1);
+               poses = new int[sz];
+               for (int j = 0; j < sz; j++)
+                   poses[j] = j;
+               StdRandom.shuffle(poses, 0, sz -1);
             }
             i = sz -1;           
         }
@@ -30,7 +30,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         public Item next() { 
             if (!hasNext())
                 throw new NoSuchElementException();
-            return itItems[i--];
+            return items[poses[i--]];
         }
         
         public void remove() { 
@@ -133,7 +133,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
         StdOut.println();
         
-        for (String s: rq){
+        for (String s: rq) {
             StdOut.print(s + " ");
             StdOut.println();
             

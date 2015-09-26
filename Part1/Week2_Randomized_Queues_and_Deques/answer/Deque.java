@@ -96,35 +96,24 @@ public class Deque<Item> implements Iterable<Item> {
     // remove and return the item from the front
     public Item removeFirst() {
         checkIsOkToRemove();        
-        
-        Item item;
-        if (sz == 1) {
-            item = last.item; //removeFinalOne();      
-        } else {        
-            item = first.item;
-            first = first.next;
-        }
-        
-        sz--;
-        clearFirstAndLast();
+        sz--;        
+        Item item = first.item;
+        if (!needAndHadCleanFirstLast()) {
+            first = first.next;    
+            first.pre = null;
+        }        
         return item;            
     }                
         
     // remove and return the item from the end
     public Item removeLast() {
         checkIsOkToRemove();
-        
-        Item item;        
-        if (sz == 1) {
-            item = last.item; //removeFinalOne();     
-        } else {            
-            item = last.item;
-            last = last.pre;        
-            last.next = null;
-        }
-            
         sz--;
-        clearFirstAndLast();
+        Item item = last.item;
+        if (!needAndHadCleanFirstLast()) {                    
+            last = last.pre; 
+            last.next = null;            
+        }
         return item;   
     }                 
     
@@ -152,11 +141,13 @@ public class Deque<Item> implements Iterable<Item> {
     }
     
     
-    private void clearFirstAndLast() {
+    private boolean needAndHadCleanFirstLast() {
         if (sz == 0) {
             first = null;
             last = null;
+            return true;
         }
+        return false;
     }    
     
 }

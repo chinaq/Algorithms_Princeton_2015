@@ -45,7 +45,8 @@ public class TestDeque extends TestCase {
     
     public void test_AddFirst_removeFirst_GetSize() {
         //Arrange
-        Deque<Integer> dq = new Deque<Integer>();        
+        Deque<Integer> dq = new Deque<Integer>();   
+        assertEquals(0, dq.size());
         
         //Action
         dq.addFirst(1);                
