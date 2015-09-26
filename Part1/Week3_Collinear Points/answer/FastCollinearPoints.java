@@ -8,8 +8,7 @@ public class FastCollinearPoints {
             
     private int pLen;
     private final Point[] points;
-    //private int lineLen;
-    private LineSegment[] lines;
+    private ArrayList<LineSegment> lineList = new ArrayList<LineSegment>();
     
     
     // finds all line segments containing 4 or more points
@@ -22,37 +21,27 @@ public class FastCollinearPoints {
         }
         for (int i = 0; i < points.length - 1; i++) {
             for (int j = i + 1; j < points.length; j++) {
-                if (points[i].toString().equals(points[j].toString()))
+                if (points[i].compareTo(points[j]) == 0)
                     throw new IllegalArgumentException();            
             }
         }
                 
-//        this.points = new Point[points.length];
-//        for (int i = 0; i < points.length; i++) {
-//            this.points[i] = points[i];
-//        }
-        //this.points = new Point[points.length];
-        this.points = Arrays.copyOf(points, points.length);
-        
+        this.points = Arrays.copyOf(points, points.length);        
         this.pLen = this.points.length;
-        //this.lineLen = 0;
-        this.lines = new LineSegment[0];
         
         findLines();
     } 
     
     // the number of line segments
     public int numberOfSegments() {
-        return lines.length;
+        //return lines.length;
+        return lineList.size();
     }  
     
     // the line segments
-    public LineSegment[] segments() {
-//        LineSegment[] temp = new LineSegment[lines.length];
-//        for (int i = 0; i < lines.length; i++) {
-//            temp[i] = lines[i];
-//        }
-        LineSegment[] temp = Arrays.copyOf(lines, lines.length);
+    public LineSegment[] segments() {        
+        LineSegment[] temp = new LineSegment[lineList.size()];
+        lineList.toArray(temp);
         return temp;
     }    
     
@@ -61,7 +50,7 @@ public class FastCollinearPoints {
         //Point[] datumPoints = copyPoints(points);
         Point[] datumPoints = Arrays.copyOf(points, points.length);
         
-        ArrayList<LineSegment> lineList = new ArrayList<LineSegment>();
+        //ArrayList<LineSegment> lineList = new ArrayList<LineSegment>();
         for (int i = 0; i < pLen; i++) {            
             Arrays.sort(points, datumPoints[i].slopeOrder());
             
@@ -97,33 +86,7 @@ public class FastCollinearPoints {
             }
         }
         
-        if (lineList.size() > 0) {
-            lines = new LineSegment[lineList.size()];
-            lineList.toArray(lines);
-        }
     }
-    
-//    private Point[] copyPoints(Point[] ps) {
-//        Point[] cPoints = new Point[ps.length];
-//        for (int i = 0; i < cPoints.length; i++) {
-//            cPoints[i] = ps[i];
-//        }
-//        return cPoints;                                    
-//    }
-    
-    
-//    private void addLine(Point first, Point last) {
-//        LineSegment newLine = new LineSegment(first, last);
-//
-//        LineSegment[] tempLines = new LineSegment[lines.length + 1];
-//        for (int i = 0; i < lines.length; i++){
-//            tempLines[i] = lines[i];
-//        }
-//        tempLines[lines.length] = newLine;
-//        lines = tempLines;            
-//    }
-    
-    
     
     
     public static void main(String[] args) {

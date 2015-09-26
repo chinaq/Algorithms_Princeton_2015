@@ -22,18 +22,12 @@ public class BruteCollinearPoints {
         }
         for (int i = 0; i < points.length - 1; i++) {
             for (int j = i + 1; j < points.length; j++) {
-                if (points[i].toString().equals(points[j].toString()))
+                if (points[i].compareTo(points[j]) == 0)
                     throw new IllegalArgumentException();            
             }
         }
-                
-//        this.points = new Point[points.length];
-//        for (int i = 0; i < points.length; i++) {
-//            this.points[i] = points[i];
-//        }
-        
-        this.points = Arrays.copyOf(points, points.length);
-        
+                        
+        this.points = Arrays.copyOf(points, points.length);        
         this.pLen = points.length;
         this.lines = new LineSegment[0];
         
@@ -50,10 +44,6 @@ public class BruteCollinearPoints {
     // 线段集合
     // the line segments
     public LineSegment[] segments() {        
-//        LineSegment[] temp = new LineSegment[lines.length];
-//        for (int i = 0; i < lines.length; i++) {
-//            temp[i] = lines[i];
-//        }
         LineSegment[] temp = Arrays.copyOf(lines, lines.length);
         return temp;
     }               
@@ -62,27 +52,28 @@ public class BruteCollinearPoints {
     
     
     
-    private void findLines() {
-        
+    private void findLines() {        
         ArrayList<LineSegment> lineList = new ArrayList<LineSegment>();
-        for (int i = 0; i < pLen; i++) {
+        for (int i = 0; i < pLen; i++) {            
             for (int j = 0; j < pLen; j++) {
+                double slope1 = points[i].slopeTo(points[j]);
+                int cmp1 = points[i].compareTo(points[j]);
+                if (!(cmp1 < 0))
+                    continue;
+                
                 for (int k = 0; k < pLen; k++) {
+                    double slope2 = points[i].slopeTo(points[k]);
+                    int cmp2 = points[j].compareTo(points[k]);
+                    if (!(cmp2 < 0) || slope1 != slope2)
+                        continue;
+                    
                     for (int l = 0; l < pLen; l++) {
-                        
-                        double slope1 = points[i].slopeTo(points[j]);
-                        double slope2 = points[i].slopeTo(points[k]);
                         double slope3 = points[i].slopeTo(points[l]);
-                        
-                        int cmp1 = points[i].compareTo(points[j]);
-                        int cmp2 = points[j].compareTo(points[k]);
                         int cmp3 = points[k].compareTo(points[l]);
+                        if (!(cmp3 < 0) || slope1 != slope3)
+                            continue;
                         
-                        if (slope1 == slope2 && slope1 == slope3
-                                && cmp1 == -1 && cmp2 == -1 && cmp3 == -1) {
-                            lineList.add(new LineSegment(points[i], points[l]));
-                            //addLine(points[i], points[l]);
-                        }
+                        lineList.add(new LineSegment(points[i], points[l]));
                     }
                 }
             }
@@ -92,18 +83,6 @@ public class BruteCollinearPoints {
             lineList.toArray(lines);
         }
     }
-    
-    
-//    private void addLine(Point first, Point last) {
-//        LineSegment newLine = new LineSegment(first, last);
-//
-//        LineSegment[] tempLines = new LineSegment[lines.length + 1];
-//        for (int i = 0; i < lines.length; i++) {
-//            tempLines[i] = lines[i];
-//        }
-//        tempLines[lines.length] = newLine;
-//        lines = tempLines;            
-//    }
     
     
     
