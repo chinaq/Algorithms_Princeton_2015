@@ -1,0 +1,584 @@
+From: <Saved by Blink>
+Subject: Programming Assignment 4 Checklist: 8 Puzzle
+Date: Wed, 6 Oct 2015 01:12:23 -0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----=_NextPart_000_70B2_2CEE3345.376F9C45"
+
+------=_NextPart_000_70B2_2CEE3345.376F9C45
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://coursera.cs.princeton.edu/algs4/checklists/8puzzle.html
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
+=3DUTF-8">
+<title>
+Programming Assignment 4 Checklist: 8 Puzzle
+</title>
+</head>
+
+<body><div id=3D"lingualy-logged-in" style=3D"display:none;"></div><div id=
+=3D"lingualy-installed" style=3D"display:none;"></div><div id=3D"lingualypo=
+pup" class=3D"lingualy_popup" style=3D"display:none;"></div>
+<h3>
+Programming Assignment 4 Checklist: 8 Puzzle
+</h3>
+
+<p lingdex=3D"0">
+
+
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center><b>Frequently Asked Questions</b></center>
+</font></td></tr></tbody></table>
+
+</p><p lingdex=3D"1"><b> Can I use different class names, method names,
+or method signatures from those prescribed in the API?</b>
+No, as usual, your assignment will not be graded if it violates the API.
+
+
+</p><p lingdex=3D"2"><b> Is 0 a block?</b>
+No, 0 represents the blank square. Do not treat it as a block when computin=
+g either
+the Hamming or Manhattan priority functions.
+
+</p><p lingdex=3D"3"><b> Can I assume that the puzzle inputs (arguments to =
+the Board constructor and input to Solver)
+are valid?</b>
+Yes, though it never hurts to include some basic error checking.
+
+</p><p lingdex=3D"4"><b>Do I have to implement my own stack, queue, and pri=
+ority queue?</b>
+You must use either <tt>MinPQ</tt> or <tt>MaxPQ</tt> for your priority queu=
+e (because we will intercept calls in
+order to do performance analysis).
+For the other data types, you may use versions from either <tt>algs4.jar</t=
+t> or <tt>java.util</tt>.
+
+
+</p><p lingdex=3D"5"><b>How do I return an <tt>Iterable&lt;Board&gt;</tt>?<=
+/b>
+Add the items you want to a <tt>Stack&lt;Board&gt;</tt>
+or <tt>Queue&lt;Board&gt;</tt> and return that.
+
+</p><p lingdex=3D"6"><b>How do I implement <tt>equals()</tt>?</b>
+Java has some arcane rules for implementing <tt>equals()</tt>,
+discussed on p. 103 of Algorithms, 4th edition.
+Note that the argument to <tt>equals()</tt> is required to be <tt>Object</t=
+t>.
+You can also inspect
+<a href=3D"http://algs4.cs.princeton.edu/12oop/Date.java.html">Date.java</a=
+>
+or
+<a href=3D"http://algs4.cs.princeton.edu/12oop/Transaction.java.html">Trans=
+action.java</a>
+for online examples.
+
+
+</p><p lingdex=3D"7"><b>Must I implement the <tt>toString()</tt> method for=
+ <tt>Board</tt> exactly as specified?</b>
+Yes. Be sure to include the board dimension and use 0 for the blank square.
+Use <tt>String.format()</tt> to format strings=E2=80=94it works like <tt>St=
+dOut.printf()</tt>, but
+returns the string instead of printing it to standard output.
+For reference, our implementation is below, but yours may vary depending on=
+ your choice of
+instance variables.
+
+</p><blockquote>
+<pre>public String toString() {
+    StringBuilder s =3D new StringBuilder();
+    s.append(N + "\n");
+    for (int i =3D 0; i &lt; N; i++) {
+        for (int j =3D 0; j &lt; N; j++) {
+            s.append(String.format("%2d ", tiles[i][j]));
+        }
+        s.append("\n");
+    }
+    return s.toString();
+}
+</pre>
+</blockquote>
+
+<!--
+<p><b>How should I implement the <tt>draw()</tt> method in <tt>Board</tt>?<=
+/b>
+It is intended primarily for debugging. You should draw a graphical represe=
+ntation of
+the board, similar to the output of the <tt>toString()</tt> method. You can
+use <tt>StdDraw.text(x, y, s)</tt> (where <tt>s</tt> is a string that does =
+not contain newlines) to draw the string <tt>s</tt>, centered on
+(<em>x</em>, <em>y</em>). You can also use
+<tt>StdDraw.setFont(new Font("SansSerif", Font.PLAIN, 24));</tt> to change=
+=20
+the font size.
+-->
+
+<p lingdex=3D"8"><b>Should the <tt>hamming()</tt> and <tt>manhattan()</tt> =
+methods
+in <tt>Board</tt> return the Hamming and Manhattan priority functions, resp=
+ectively?</b>
+No, <tt>hamming()</tt> should return the number of blocks out of position a=
+nd=20
+<tt>manhattan()</tt> should return the sum of the Manhattan distances betwe=
+en
+the blocks and their goal positions. Recall that the blank square is not co=
+nsidered a block.
+You will compute the priority function
+in <tt>Solver</tt> by calling <tt>hamming()</tt> or <tt>manhattan()</tt>
+and adding to it the number of moves.
+
+</p><p lingdex=3D"9"><b>I'm a bit confused about the purpose of the twin() =
+method.</b>
+You will use it to determine whether a puzzle is solvable: exactly one of
+a board and its twin are solvable. A twin is obtained by swapping=20
+any pair of blocks (the blank square is not a block).
+For example, here is a board and several possible  twins.
+Your solver will use only one twin.
+</p><blockquote>
+<pre>    1  3       3  1       1  3       1  3       1  3       6  3
+ 4  2  5    4  2  5    2  4  5    4  5  2    4  2  5    4  2  5
+ 7  8  6    7  8  6    7  8  6    7  8  6    8  7  6    7  8  1
+
+  board      twin       twin       twin       twin       twin
+</pre>
+</blockquote>
+
+
+<p lingdex=3D"10"><b> How do I reconstruct the solution once I've dequeued
+the goal search node?</b>
+Since each search node records the previous search node to get there,
+you can chase the pointers all the way back to the initial
+search node (and consider them in reverse order).
+
+</p><p lingdex=3D"11"><b> Can I terminate the search as soon as a goal sear=
+ch node is enqueued
+(instead of dequeued)?</b>
+No, even though it does lead to a correct solution for the slider
+puzzle problem using the Hamming and Manhattan priority functions,
+it's not technically the A* algorithm (and will not find the correct soluti=
+on
+for other problems and other priority functions).
+<!--
+Here=E2=80=99s a simple argument that checking the search node
+when it is enqueued (instead of dequeued)=20
+is correct here; moreover, it is (nearly) a correct implementation of the A=
+* algorithm here.=20
+When a goal search node s* is enqueued, it is because a neighboring search =
+node s
+is one move away from=20
+the solution. Assume this neighbor s has hamming (or manhattan) priority k.=
+ Since it is one=20
+move away, its hamming (or manhattan) distance is 1, so the number of moves=
+ to get there is=20
+k-1. The goal search node s* has exactly the same priority k: its hamming (=
+or manhattan) distance is=20
+0 and its number of moves is k. Thus, if we enqueue s*, the A* algorithm ca=
+n dequeue s* next=20
+(and terminate) because s* has the minimum priority k. I guess, technically=
+, the other=20
+neighbors of s should be enqueued, but these will have higher priorities an=
+d not be relevant.=20
+-->
+
+</p><p lingdex=3D"12"><b> I noticed that the priorities of the search nodes
+dequeued from the priority queue
+never decrease. Is this a property of the A* algorithm?</b>
+Yes.
+In the language of the A* algorithm, the Hamming and Manhattan distances (b=
+efore
+adding in the number of moves so far) are known as <em>heuristics</em>. If
+a heuristic is both <em>admissible</em> (never overestimates the number of =
+moves to
+the goal search node) and <em>consistent</em> (satisfies a certain triangle=
+ inequality),
+then this noticed property is guaranteed.=20
+The Hamming and Manhattan heuristics are both admissible and consistent.
+You may use this noticed property as a debugging clue: if the priority of t=
+he search node dequeued=20
+from the priority queue decreases, then you know you did something wrong.
+
+</p><p lingdex=3D"13"><b>Even with the critical optimization, the priority =
+queue may contain two or more search nodes
+corresponding to the same board. Should I try to eliminate these?</b>
+In principle, you could do so with a set data type such as <tt>SET</tt> in =
+<tt>algs4.jar</tt> or
+<tt>java.util.TreeSet</tt> or <tt>java.util.HashSet</tt>
+(provided that the <tt>Board</tt> data type were either <tt>Comparable</tt>=
+ or had a <tt>hashCode()</tt>
+method).
+However, almost all of the benefit from avoiding duplicate boards is alread=
+y
+extracted from the critical optimization and the cost of identifying other =
+duplicate=20
+boards will be more than the remaining benefit from doing so.
+
+</p><p lingdex=3D"14"><b>Can I put the logic for detecting whether a puzzle=
+ is infeasible in
+Board instead of Solver?</b>
+There is a elegant algorithm for determining whether a board is solvable th=
+at relies on a
+parity argument (and occasionally we change our API to require this solutio=
+n).
+However, the current API requires you to detect infeasiblity
+in <tt>Solver</tt> by using two synchronized A* searches (e.g., using two p=
+riority queues).
+
+</p><p lingdex=3D"15"><b>I run out of memory when running some of the large=
+ sample puzzles. What should I do?</b>
+Be sure to ask Java for additional memory,
+e.g., <tt>java -Xmx1600m Solver puzzle36.txt</tt>.
+We recommend running from the command line (and not from the DrJava interac=
+tion pane).
+You should expect to run out of memory when using the Hamming priority func=
+tion.
+Be sure not to put the JVM option in the wrong spot or it will be
+treated as a command-line argument,=20
+e.g., <tt>java Solver -Xmx1600m puzzle36.txt</tt>.
+
+
+</p><p lingdex=3D"16"><b>My program can't solve puzzle4x4-hard1.txt or puzz=
+le4x4-hard2.txt,
+even if I give it a huge amount of space. What am I doing wrong?</b>
+Probably nothing. The A* algorithm will struggle to solve even some 4-by-4 =
+instances.
+
+
+</p><p lingdex=3D"17">
+
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center><b>Testing</b></center>
+</font></td></tr></tbody></table>
+
+</p><p lingdex=3D"18"><b>Input files.</b>
+&nbsp;
+The directory
+<a href=3D"http://coursera.cs.princeton.edu/algs4/testing/8puzzle">8puzzle<=
+/a>
+contains many sample puzzle input files.
+For convenience,=20
+<a href=3D"http://coursera.cs.princeton.edu/algs4/testing/8puzzle-testing.z=
+ip">8puzzle-testing.zip</a> contains all of these files bundled together.
+
+</p><ul>
+<p lingdex=3D"19"></p><li>
+The shortest solution to <tt>puzzle[T].txt</tt> requires exactly <em>T</em>=
+ moves.
+<p lingdex=3D"20"></p></li><li>
+The shortest solution to <tt>puzzle4x4-hard1.txt</tt> and
+<tt>puzzle4x4-hard2.txt</tt> are 38 and 47, respectively.
+<p lingdex=3D"21"></p></li><li>
+Warning: <tt>puzzle36.txt</tt> is especially difficult.
+</li></ul>
+
+<p lingdex=3D"22"><b>Test client.</b>
+A good way to automatically run your program on our sample puzzles
+is to use the client
+<a href=3D"http://coursera.cs.princeton.edu/algs4/testing/8puzzle/PuzzleChe=
+cker.java">PuzzleChecker.java</a>.
+
+
+</p><p lingdex=3D"23"><b>Priority queue trace.</b>
+</p><ul>
+<p lingdex=3D"24"></p><li>
+Here are the contents of our priority queue (sorted by priority)
+just before dequeueing each node when using the Manhattan=20
+priority function on <tt>puzzle04.txt</tt>.
+
+<blockquote>
+<pre>Step 0:    priority  =3D 4
+           moves     =3D 0
+           manhattan =3D 4
+           3           =20
+            0  1  3    =20
+            4  2  5    =20
+            7  8  6    =20
+
+Step 1:    priority  =3D 4    priority  =3D 6
+           moves     =3D 1    moves     =3D 1
+           manhattan =3D 3    manhattan =3D 5
+           3                3           =20
+            1  0  3          4  1  3    =20
+            4  2  5          0  2  5    =20
+            7  8  6          7  8  6    =20
+
+Step 2:    priority  =3D 4    priority  =3D 6    priority  =3D 6
+           moves     =3D 2    moves     =3D 1    moves     =3D 2
+           manhattan =3D 2    manhattan =3D 5    manhattan =3D 4
+           3                3                3           =20
+            1  2  3          4  1  3          1  3  0    =20
+            4  0  5          0  2  5          4  2  5    =20
+            7  8  6          7  8  6          7  8  6    =20
+
+Step 3:    priority  =3D 4    priority  =3D 6    priority  =3D 6    priorit=
+y  =3D 6    priority  =3D 6
+           moves     =3D 3    moves     =3D 3    moves     =3D 2    moves  =
+   =3D 3    moves     =3D 1
+           manhattan =3D 1    manhattan =3D 3    manhattan =3D 4    manhatt=
+an =3D 3    manhattan =3D 5
+           3                3                3                3            =
+    3           =20
+            1  2  3          1  2  3          1  3  0          1  2  3     =
+     4  1  3    =20
+            4  5  0          4  8  5          4  2  5          0  4  5     =
+     0  2  5    =20
+            7  8  6          7  0  6          7  8  6          7  8  6     =
+     7  8  6    =20
+
+Step 4:    priority  =3D 4    priority  =3D 6    priority  =3D 6    priorit=
+y  =3D 6    priority  =3D 6    priority  =3D 6
+           moves     =3D 4    moves     =3D 3    moves     =3D 4    moves  =
+   =3D 2    moves     =3D 3    moves     =3D 1
+           manhattan =3D 0    manhattan =3D 3    manhattan =3D 2    manhatt=
+an =3D 4    manhattan =3D 3    manhattan =3D 5
+           3                3                3                3            =
+    3                3           =20
+            1  2  3          1  2  3          1  2  0          1  3  0     =
+     1  2  3          4  1  3    =20
+            4  5  6          0  4  5          4  5  3          4  2  5     =
+     4  8  5          0  2  5    =20
+            7  8  0          7  8  6          7  8  6          7  8  6     =
+     7  0  6          7  8  6    =20
+</pre>
+</blockquote>
+
+
+There were a total of 10 search nodes enqueued and 5 search nodes dequeued.
+In general, the number of search nodes enqueued and dequeued may vary sligh=
+tly, depending
+the order in which the search nodes with equal priorities come off the prio=
+rity queue,
+which depends on the order in which <tt>neighbors()</tt>
+returns the neighbors of a board. However, for this input, there are no suc=
+h ties,
+so you should have exactly 10 search nodes enqueued and 5 search nodes dequ=
+eued.
+
+
+<p lingdex=3D"25"></p></li><li>
+The contents of our priority queue (sorted by priority)
+just before dequeueing each node when using the Hamming priority function o=
+n <tt>puzzle04.txt</tt>=20
+turns out to be identical to the results above: for this input file, throug=
+hout the A* algorithm,
+a block is never more than one position away from its goal position, which =
+implies that the
+Hamming function and the Manhattan functions are equal.
+
+
+</li></ul>
+
+
+
+
+
+
+<!--
+<p>
+<TABLE BORDER =3D 0 CELLPADDING =3D 2 CELLSPACING =3D 0 WIDTH =3D 100%>
+<tr align =3D left>
+<td bgcolor =3D "000000">
+<font size =3D +0 face =3D "helvetica" color =3D "ffffff">
+<center><b>Possible Progress Steps</b></center>
+</table>
+<p>
+
+These are purely suggestions for how you might make progress.  You do
+not have to follow these steps.
+
+<ul>
+
+<p><li> Be sure that you understand the relevant terminology, including
+<em>board</em>, <em>block</em>, <em>search node</em>, <em>Hamming distance<=
+/em>,
+<em>Manhattan distance</em>, <em>Hamming priority function</em>,
+<em>Manhattan priority function</em>, and <em>twin board</em>.
+
+
+<p><li> Write the data type <tt>Board</tt> that represents
+an <em>N</em>-by-<em>N</em> puzzle board.
+Be sure to throughly test and debug it before proceding.
+
+<p><li> Write a nested class <tt>SearchNode</tt> that represents a search n=
+ode
+of the game (board, number of moves to reach it, and previous search node).
+Make it implement the <tt>Comparable&lt;SearchNode&gt;</tt> interface
+so that you can use it with a <tt>MinPQ</tt>.=20
+The <tt>compareTo()</tt> method should compare search nodes based on their
+Hamming or Manhattan priorities.
+<!--=20
+You can either
+make this a nested class within <tt>Solver</tt> or make it a=20
+stand-alone class.
+-->
+
+<p lingdex=3D"26"></p><li> Write the class <tt>Solver</tt> that uses the A*
+algorithm to solve puzzle instances.
+
+
+
+--&gt;
+
+<p lingdex=3D"27">
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center><b>Enrichment</b></center>
+</font></td></tr></tbody></table>
+</p><p lingdex=3D"28">
+
+</p><p lingdex=3D"29"><b>How can I reduce the amount of memory a <tt>Board<=
+/tt> uses?</b>
+For starters, recall that an N-by-N <tt>int[][]</tt> array in Java uses
+about 24 + 32N + 4N^2 bytes; when N equals 3, this is 156 bytes.
+To save memory, consider using an <em>N</em>-by-<em>N</em> <tt>char[][]</tt=
+> array
+or a length <em>N</em>^2 <tt>char[]</tt> array.
+In principle, each board is a permutation of size N^2, so you need only abo=
+ut lg ((N^2)!)
+bits to represent it; when N equals 3, this is only 19 bits.
+
+</p><p lingdex=3D"30"><b>Any ways to speed up the algorithm?</b>
+Yes there are many opportunities for optimization here.
+</p><ul>
+<p lingdex=3D"31"></p><li> Use a 1d array instead of a 2d array (as suggest=
+ed above).
+
+<p lingdex=3D"32"></p></li><li> Cache either the Manhattan distance of a bo=
+ard (or Manhattan=20
+priority of a search node). It is waste to recompute the same quantity over
+and over again.
+
+<p lingdex=3D"33"></p></li><li> Exploit the fact that the difference in Man=
+hattan distance=20
+between a board and a neighbor is either +1, -1, or 0, based on the
+direction that the block moves.
+
+<p lingdex=3D"34"></p></li><li> Use only one PQ to run the A* algorithm on =
+the initial board
+and its twin.
+
+<p lingdex=3D"35"></p></li><li> When two search nodes have the same Manhatt=
+an priority,
+you can break ties however you want, e.g., by comparing either=20
+the Hamming or Manhattan distances of the two boards.
+
+<p lingdex=3D"36"></p></li><li> Use a parity argument to determine whether =
+a puzzle is
+unsolvable (instead of two synchronous A* searches). However,
+this will either break the API or will require a fragile dependence
+on the <tt>toString()</tt> method, so don't do it.
+
+</li></ul>
+
+<p lingdex=3D"37"><b>Is there an efficient way to solve the 8-puzzle and it=
+s generalizations?</b>
+Finding a shortest solution to an <em>N</em>-by-<em>N</em> slider puzzle is
+<a href=3D"http://www.aaai.org/Library/AAAI/1986/aaai86-027.php">NP-hard</a=
+>,
+so it's unlikely that an efficient solution exists.
+
+</p><p lingdex=3D"38"><b>What if I'm satisfied with any solution and don't =
+need one=20
+that uses the fewest number of moves?</b>
+Yes, change the priority function to put more weight on the
+Manhattan distance, e.g., 100 times the Manhattan distance plus
+the number of moves made already.
+<a href=3D"http://www-cse.ucsd.edu/~ccalabro/essays/15_puzzle.pdf">This pap=
+er</a>
+describes an algorithm that guarantees to perform at most N^3 moves.
+
+</p><p lingdex=3D"39"><b>Are there better ways to solve 8- and 15-puzzle in=
+stances using
+the minimum number of moves?</b>
+Yes, there are a number of approaches.
+
+</p><ul>
+<p lingdex=3D"40"></p><li> Use the A* algorithm with a better admissible pr=
+iority function:
+<ul>
+
+<p lingdex=3D"41"></p><li>
+<em>Linear conflict</em>: add two to the Manhattan priority function whenev=
+er
+two tiles are in their goal row (or column) but are reversed relative to
+their goal position.
+
+<p lingdex=3D"42"></p></li><li>
+<em>Pattern database</em>: For each possible
+configuration of 4 tiles and the blank, determine the minimum number of
+moves to put just these tiles in their proper position and store these
+values in a database. The heuristic value is the maximum over all configura=
+tions,
+plus the number of moves made so far.
+This can reduce the number of search nodes examined for random 15-puzzle in=
+stances
+by a factor of 1000.=20
+</li></ul>
+
+<p lingdex=3D"43"></p></li><li> Use a variant of the A* algorithm known as=
+=20
+IDA* (for iterative deepening).
+<a href=3D"http://citeseerx.ist.psu.edu/viewdoc/summary?doi=3D10.1.1.56.668=
+8">This paper</a>
+describes its application to the 15-slider puzzle.
+
+<p lingdex=3D"44"></p></li><li>
+Another approach
+is to use <a href=3D"http://en.wikipedia.org/wiki/Bidirectional_search">bid=
+irectional
+search</a>, where you simultaneously search from the initial board to find =
+the goal board
+and from the goal board to find the initial board, and have the two search =
+trees meet=20
+in the middle. Handling the stopping condition is delicate.
+</li></ul>
+
+
+<p lingdex=3D"45"><b>Can a puzzle have more than one shortest solution?</b>
+Yes. See <tt>puzzle07.txt</tt>.
+
+</p><blockquote>
+<pre> Solution 1
+ --------------------------------------------------------------------------=
+----------
+ 1  2  3    1  2  3    1  2  3    1  2  3    1  2  3    1  2  3    1  2  3 =
+   1  2  3=20
+    7  6    7     6    7  4  6    7  4  6       4  6    4     6    4  5  6 =
+   4  5  6=20
+ 5  4  8    5  4  8    5     8       5  8    7  5  8    7  5  8    7     8 =
+   7  8  =20
+
+ Solution 2
+ --------------------------------------------------------------------------=
+----------
+ 1  2  3    1  2  3    1  2  3    1  2  3    1  2  3    1  2  3    1  2  3 =
+   1  2  3
+    7  6    5  7  6    5  7  6    5     6       5  6    4  5  6    4  5  6 =
+   4  5  6=20
+ 5  4  8       4  8    4     8    4  7  8    4  7  8       7  8    7     8 =
+   7  8 =20
+</pre>
+</blockquote>
+
+In such cases, you are required to output any one such solution.
+
+
+
+
+
+</li><style type=3D"text/css">.lingualy-translate-close {background: url("c=
+hrome-extension://iilcekgoelpgecpjnnoikhbleipnjdhf/lookup/assets/translate/=
+x_normal.png") no-repeat;}.lingualy-translate-close:hover {background: url(=
+"chrome-extension://iilcekgoelpgecpjnnoikhbleipnjdhf/lookup/assets/translat=
+e/x_over.png");}.lingualy_popup .lingualy_close {background: url("chrome-ex=
+tension://iilcekgoelpgecpjnnoikhbleipnjdhf/lookup/assets/andy-sprite.png") =
+no-repeat 0 -50px;}</style></body></html>
+------=_NextPart_000_70B2_2CEE3345.376F9C45--
