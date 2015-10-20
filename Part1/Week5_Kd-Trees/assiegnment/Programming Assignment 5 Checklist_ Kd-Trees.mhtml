@@ -1,0 +1,425 @@
+From: <Saved by Blink>
+Subject: Programming Assignment 5 Checklist: Kd-Trees
+Date: Sat, 16 Oct 2015 01:47:45 -0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----=_NextPart_000_7060_A6912DFC.9A0FD92D"
+
+------=_NextPart_000_7060_A6912DFC.9A0FD92D
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://coursera.cs.princeton.edu/algs4/checklists/kdtree.html
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
+=3DUTF-8">
+<title>
+Programming Assignment 5 Checklist: Kd-Trees
+</title>
+</head>
+
+<body><div id=3D"lingualy-logged-in" style=3D"display:none;"></div><div id=
+=3D"lingualy-installed" style=3D"display:none;"></div><div id=3D"lingualypo=
+pup" class=3D"lingualy_popup" style=3D"display:none;"></div>
+<h3>
+Programming Assignment 5 Checklist: Kd-Trees
+</h3>
+
+<p lingdex=3D"0">
+
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center><b>Frequently Asked Questions</b></center>
+</font></td></tr></tbody></table>
+
+<!--
+<p><b>
+Can I add extra public methods to the <tt>Point2D</tt> and <tt>RectHV</tt>
+APIs?</b>
+You are permitted (and encouraged) to add a <tt>main()</tt> test client,=20
+but you may not add any other public methods.
+
+<p><b>Is a point on the boundary of a rectangle considered inside it?
+Do two rectangle intersect if they have just one point in common?</b>
+Yes, and yes.
+<p><b>What should be the format of the toString() methods in RectHV?</b>
+These methods are primarily for debuginng, so any reasonable format is fine=
+.
+We recommend <tt>[xmin, xmax] x [ymin, ymax]</tt>.
+
+<p><b>Can I assume that the arguments to methods in <tt>RectHV</tt> are not=
+ null?</b>
+You can assume that the arguments to <tt>contains()</tt>, <tt>intersects()<=
+/tt>,
+<tt>distanceTo()</tt>, and <tt>distanceSquaredTo()</tt> are not null.
+However, if the argument to <tt>equals()</tt> is null, you must return
+false to obey the contract.
+You can also assume that none of the arguments to the constructor are=20
+<tt>Double.NaN</tt>.
+
+<p><b>My implementation of <tt>distanceTo()</tt> in <tt>RectHV</tt> has
+numerous cases. Am I on the right track?</b>
+This is acceptable provided you handle every possible case.
+However, there is a direct approach that requires about 6 lines of code.
+-->
+
+</p><p lingdex=3D"1"><b>What should I do if a point has the same x-coordina=
+te as the point
+in a node when inserting / searching in a 2d-tree?</b>
+Go the right subtree as specified.
+
+
+<!--
+<p><b>When do I need private methods?</b>
+Private methods are useful for keeping your code organized. One common orga=
+nizational scheme
+is to recursively call private methods. See page 399 of the book or the cod=
+e for BST.java.
+For example, the public <tt>insert()</tt> method for KdTree is best impleme=
+nted using a supporting
+private <tt>insert()</tt> method which is called recursively. As with BST, =
+this private method
+will have more arguments than the public method. Part of the assignment is =
+deciding what arguments
+are needed.
+-->
+
+</p><p lingdex=3D"2"><b>Can I assume that all x- or y-coordinates of points=
+ inserted into
+the <tt>KdTree</tt>  will be between 0 and 1?</b>
+Yes. You may also assume that the <tt>insert()</tt>, <tt>contains()</tt>, a=
+nd=20
+<tt>nearest()</tt> methods in <tt>KdTree</tt>=20
+are passed points with x- and y-coordinates between 0 and 1.
+You may also assume that the <tt>range()</tt> method in <tt>KdTree</tt> is
+passed a rectangle that lies in the unit box.
+<!-- However, the <tt>RectHV</tt> data type should not make such assumption=
+s. -->
+
+</p><p lingdex=3D"3"><b>What should I do if a point is inserted twice in th=
+e data structure?</b>
+The data structure represents a <em>set</em> of points, so you should keep =
+only one copy.
+
+
+</p><p lingdex=3D"4"><b>How should I scale the coordinate system when drawi=
+ng?</b>
+Don't, please keep the default range of 0 to 1.
+
+
+</p><p lingdex=3D"5"><b>How should I set the size and color of the points a=
+nd rectangles when drawing?</b>
+<!--
+Your <tt>RectHV</tt> data types should draw lines using <tt>StdDraw.line()<=
+/tt>=20
+or <tt>StdDraw.rectangle()</tt>, without calling=20
+<tt>StdDraw.setPenColor()</tt> or <tt>StdDraw.setPenRadius()</tt>.
+In <em>client code</em> (such as the <tt>draw()</tt> method in <tt>KdTree</=
+tt>),
+ -->
+Use <tt>StdDraw.setPenColor(StdDraw.BLACK)</tt> and <tt>StdDraw.setPenRadiu=
+s(.01)</tt> before
+before drawing the points;
+use <tt>StdDraw.setPenColor(StdDraw.RED)</tt> or <tt>StdDraw.setPenColor(St=
+dDraw.BLUE)</tt>
+and <tt>StdDraw.setPenRadius()</tt> before drawing the splitting lines.
+
+</p><p lingdex=3D"6"><b>What should <tt>range()</tt> return if there are no=
+ points in the range?</b>
+It should return an <tt>Iterable&lt;Point2D&gt;</tt> object with zero point=
+s.
+
+</p><p lingdex=3D"7"><b>How much memory does a <tt>Point2D</tt> object use?=
+</b>
+For simplicity, assume that each <tt>Point2D</tt> object uses 32 bytes=E2=
+=80=94in reality,
+it uses a bit more because of the <tt>Comparator</tt> instance variables.
+
+</p><p lingdex=3D"8"><b>How much memory does a <tt>RectHV</tt> object use?<=
+/b>
+You can look at the code and analyze it.
+
+</p><p lingdex=3D"9"><b>I run out of memory when running some of the large =
+sample files. What should I do?</b>
+Be sure to ask Java for additional memory,
+e.g., <tt>java -Xmx1600m RangeSearchVisualizer input1M.txt</tt>.
+
+</p><p lingdex=3D"10">
+
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center><b>Testing</b></center>
+</font></td></tr></tbody></table>
+
+</p><p lingdex=3D"11"><b>Testing.</b>
+A good way to test <tt>KdTree</tt> is to perform
+the same sequence of operations on both the <tt>PointSET</tt> and=20
+<tt>KdTree</tt> data types and identify any discrepancies.
+The sample clients
+ <a href=3D"http://coursera.cs.princeton.edu/algs4/testing/kdtree/RangeSear=
+chVisualizer.java">RangeSearchVisualizer.java</a>
+and=20
+ <a href=3D"http://coursera.cs.princeton.edu/algs4/testing/kdtree/NearestNe=
+ighborVisualizer.java">NearestNeighborVisualizer.java</a>
+take this approach.
+
+</p><p lingdex=3D"12"><b>Sample input files.</b>
+&nbsp;
+The directory <a href=3D"http://coursera.cs.princeton.edu/algs4/testing/kdt=
+ree">kdtree</a> contains
+some sample input files in the specified format.
+For convenience, <a href=3D"http://coursera.cs.princeton.edu/algs4/testing/=
+kdtree-testing.zip">kdtree-testing.zip</a>
+contains all of these files bundled together.=20
+
+</p><ul>
+<p lingdex=3D"13"></p><li><tt>circleN.txt</tt> contains <tt>N</tt> points o=
+n the circumference
+of the circle centered on (0.5, 0.5) of radius 0.5.
+
+</li></ul>
+
+The result of calling <tt>draw()</tt> on the points in <tt>circle10.txt</tt=
+>
+should look like the following:
+
+<br><blockquote>
+<img src=3D"http://coursera.cs.princeton.edu/algs4/testing/kdtree/circle10.=
+png" width=3D"300">
+</blockquote>
+
+<br>If <tt>nearest()</tt> is called with <tt>p =3D (.81, .30)</tt> the numb=
+er of nodes visited in order
+to find that F is nearest is 5.
+
+<p lingdex=3D"14">Starting with <tt>circle10k.txt</tt> if nearest is called=
+ with <tt>p =3D (.81, .30)</tt>=20
+the number of nodes visited in order to find that K is nearest is 6.
+
+</p><p lingdex=3D"15">
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center><b>Possible Progress Steps</b></center>
+</font></td></tr></tbody></table>
+</p><p lingdex=3D"16">
+
+These are purely suggestions for how you might make progress.  You do
+not have to follow these steps.
+
+</p><ol>
+
+
+<p lingdex=3D"17"></p><li><b>Node data type.</b>
+There are several reasonable ways to represent a node in a 2d-tree.
+One approach is to include the point, a link to the left/bottom subtree,
+a link to the right/top subtree, and an axis-aligned rectangle correspondin=
+g
+to the node.
+
+<blockquote>
+<pre>private static class Node {
+   private Point2D p;      // the point
+   private RectHV rect;    // the axis-aligned rectangle corresponding to t=
+his node
+   private Node lb;        // the left/bottom subtree
+   private Node rt;        // the right/top subtree
+}
+</pre>
+</blockquote>
+
+Unlike the <tt>Node</tt> class for <tt>BST</tt>, this <tt>Node</tt> class i=
+s
+static because it does not refer to a generic <tt>Key</tt> or <tt>Value</tt=
+> type
+that depends on the object associated with the outer class. This saves the=
+=20
+8-byte inner class object overhead. (Making the <tt>Node</tt> class static=
+=20
+in <tt>BST</tt> is also possible if you make the <tt>Node</tt> type itself
+generic as well).
+Also, since we don't need to implement
+the rank and select operations, there is no need to store the subtree size.
+
+<p lingdex=3D"18"></p></li><li><b>Writing KdTree.</b>
+Start by writing <tt>isEmpty()</tt> and <tt>size()</tt>. These should be ve=
+ry easy. From there,=20
+write a simplified version of insert() which does everything except set up =
+the
+<tt>RectHV</tt> for each node. Write the <tt>contains()</tt> method, and us=
+e this to test that
+<tt>insert()</tt> was implemented properly. Note that <tt>insert()</tt> and=
+ <tt>contains()</tt>=20
+are best implemented by using private helper methods analogous to those fou=
+nd on page 399
+of the book or by looking at BST.java. We recommend using orientation as an=
+=20
+argument to these helper methods.
+
+<p lingdex=3D"19">Now add the code to <tt>insert()</tt> which sets up the R=
+ectHV for each Node. Next,
+write <tt>draw()</tt>, and use this to test these rectangles. Finish up KdT=
+ree with the=20
+nearest and range methods. Finally, test your implementation using our inte=
+ractive client=20
+programs as well as any other tests you'd like to conduct.
+
+</p></li></ol>
+
+
+<p lingdex=3D"20">
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center><b>Optimizations</b></center>
+</font></td></tr></tbody></table>
+</p><p lingdex=3D"21">
+
+These are many ways to improve performance of your 2d-tree. Here are some i=
+deas.
+
+</p><ul>
+
+<p lingdex=3D"22"></p><li><b>Squared distances.</b>
+Whenever you need to compare two Euclidean distances, it is often more effi=
+cient
+to compare the squares of the two distances to avoid the expensive
+operation of taking square roots.
+Everyone should implement this optimization because it is both easy to do
+and likely a bottleneck.
+
+<p lingdex=3D"23"></p></li><li><b>Range search.</b>
+Instead of checking whether the query rectangle intersects the rectangle co=
+rresponding
+to a node, it suffices to check only whether the query rectangle intersects
+the splitting line segment: if it does,
+then recursively search both subtrees; otherwise, recursively search the
+one subtree where points intersecting the query rectangle could be.
+
+<p lingdex=3D"24"></p></li><li><b>Save memory.</b>
+You are not required to explicitly store a <tt>RectHV</tt> in each 2d-tree =
+node (though it
+is probably wise in your first version).
+
+
+</li></ul>
+
+<style type=3D"text/css">.lingualy-translate-close {background: url("chrome=
+-extension://iilcekgoelpgecpjnnoikhbleipnjdhf/lookup/assets/translate/x_nor=
+mal.png") no-repeat;}.lingualy-translate-close:hover {background: url("chro=
+me-extension://iilcekgoelpgecpjnnoikhbleipnjdhf/lookup/assets/translate/x_o=
+ver.png");}.lingualy_popup .lingualy_close {background: url("chrome-extensi=
+on://iilcekgoelpgecpjnnoikhbleipnjdhf/lookup/assets/andy-sprite.png") no-re=
+peat 0 -50px;}</style></body></html>
+------=_NextPart_000_7060_A6912DFC.9A0FD92D
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: http://coursera.cs.princeton.edu/algs4/testing/kdtree/circle10.png
+
+iVBORw0KGgoAAAANSUhEUgAAAYMAAAF+CAIAAADvCuGCAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
+jwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAABXFSURBVHhe7d1PTJR3Hsfx56lKocvFk7ubPTKp
+ae1tD81w6KGJK5h28YKmG3eZNBlMTApmK4dq0qaxm6BGhrQemJpM2sSkeKltUoimV7jtqYZugWu3
+2RMXgyjq7DPInwFmYJ6ZZ+b3/X2/by6tMPM83+/r88xHGHAIi8ViwBsCCCDgVOAlp2fn5AgggEBJ
+gCbiOkAAAfcCNJH7DJgAAQRoIq6BegRWV1fruRv3QaCKAE3EpRFb4JNPPmlra7t06VLse3IHBKoI
+hBW/d5bJZCq+/3F7e2ZysnD69MsrK/6S6tjClX9HR8fk5OTS0lJnZ+fZs2eXl5ddTeLveS1cgWEY
+FgqFGBlFjbP7bWBgoOL7S+88d67qhzz6gI4t3IGPvvqqu5OrOLP2K3CvDqkUYPyvznz+bGiroXVs
+EeNvnIRvOvLWWwkf0drhuAK3Jx6/iaxdMexbUeDJE2AQSFCAJkoQk0MhgECdAjRRnXDcDQEEEhSg
+iRLE5FAIIFCnAE1UJxx3QwCBBAVoogQxORQCCNQpQBPVCcfdEEAgQQGaKEFMDrWXwOJ4dzg4jREC
+FQVoIi4MBBBwL0ATuc+ACRBAgCbiGkAAAfcCNJH7DJgAAQRoIq4BBBBwL0ATuc+ACRBAgCbiGmiR
+wMLcbIvOxGk8FKCJPAzNt5EHo9fvC8PefHZqose32Zm3RQI0UYugLZ9mYv01+ughy1fBPrvTRFwc
+CCDgXoAmcp8BEyCAAE3ENYAAAu4FaCL3GTABAgjQRFwDCCDgXoAmcp8BEyCAAE3ENYAAAu4FaCL3
+GTABAgjQRFwDCCDgXoAmcp8BEyCAAE3ENYAAAu4FpDZR6eXXt954IXb3VwoTuBTY/ngIw+7xRZfj
+NOHcIptoejBMDR+bWv93k8XiVNCbdBcdOtQETA6JQM0C8a/A7NYjojgz1FXzmfy4ocAmmh4svX5E
+sewfbvdMlP8pCdjbc3PPkjiO3WO0F+3unsTmX//0UxKH0XOMMPrEY/c2mUymUChU3jKTCap9KBGW
+6BOi3mBbESVy2LKDZLPZL7/8MnrH+fPFhw+TPrqB4z1uDzKTpwunJ19eMbBt0it2dgY3b4bRUd9/
+//1bt27Vdvjoq7PU3OWk/0Ku7dz13WqvDql4xM0vgcr/Z2BgoOL7S+/c40NV7xPnA1PZIFj/PHQh
+l96Yufwz0zhHq3TbsbGx6LCpVFejB+L+CNQlcPToq9EVODo6WvO9yx4KpYdEkg+HmmeId8O9OqTS
+kQR+dbZVmF1DM6WZS92U5Nvw8PB/33tvfn4hyYNyLARqFvj55//8eubMyMhIzffYUT8KX3NOXhP1
+9GWD/N0m/9biP7S3x7oIuDECyQr88ZVXkj2g70eT10RBz8VcOt/b5F+h/vy578kxv98CXIHb8xPY
+REHpi7KF3IPejZ8n6s2ncxd5KXa/H3hM37BA9Nfz5hs/T9QwZ40HWH+KaP2pLX0/PVEjAzdDYE1g
+++OhyM8TcV0ggAACTRCQ+NVZE9bkkAggIFqAJhIdD8MhYESAJjISNGsiIFqAJhIdD8MhYESAJjIS
+NGsiIFqAJhIdD8MhYESAJjISNGsiIFqAJhIdD8MhYESAJjISNGsiIFqAJhIdD8MhYESAJjISNGsi
+IFqAJhIdD8MhYESAJjISNGsiIFqAJhIdD8MhYESAJjISNGsiIFqAJhIdD8MhYESAJjISNGsiIFqA
+JhIdD8MhYESAJjISNGsiIFqAJhIdD8MhYESAJjISNGsiIFqAJhIdD8MhYESAJjISNGsiIFqAJhId
+D8MhYESAJjISNGsiIFqAJhIdD8MhYESAJjISNGsiIFqAJhIdD8MhYESAJjISNGsiIFqAJhIdD8Mh
+YESAJjISNGsiIFqAJhIdD8MhYESAJjISNGsiIFqAJhIdD8MhYESAJjISNGsiIFqAJhIdD8MhYESA
+JjISNGsiIFqAJhIdD8MhYESAJjISNGsiIFqAJhIdD8MhYESAJjISNGsiIFqAJhIdD8MhYESAJjIS
+NGsiIFqAJhIdD8MhYESAJjISNGsiIFqAJhIdD8MhYESAJjISNGsiIFqAJhIdD8MhYESAJjISNGsi
+IFqAJhIdD8MhYESAJjISNGsiIFqAJhIdD8MhYESAJjISNGsiIFqAJhIdD8MhYESAJjISNGsiIFqA
+JhIdD8MhYESAJjISNGsiIFqAJhIdD8MhYESAJjISNGsiIFqAJhIdD8MhYESAJjISNGsiIFqAJhId
+D8MhYESAJjISNGsiIFqAJhIdD8MhIExgcbw7LHsbnE5oPpooIUgOg4AZgXRuoVh6W8il870JdRFN
+ZObyYVEEEhboOtmfDh7MLyZxWJooCUWOgYBFgcUf7sym+092JbE7TZSEIsdAwJLA7HBq7ami1HBi
+RRTQRJauIHZFIAmBjeeJisWpY8Op7vEkvjyjiZJIhmMgYFOgpy8bzM4tJLA8TZQAIodAwKjA9N18
+kH4tlcD2NFECiBwCAVMCG88ThWFvPjs1M5TEU9Y0kalLiGURaFCga2hm7WeJNt4meho84PrdaaJk
+HDkKAgg0IkATNaLHfRFAIBkBmigZR46CAAKNCNBEjehxXwQQSEaAJkrGkaMggEAjAjRRI3rcFwEE
+khGgiZJx5CgIINCIAE3UiB73RQCBZATiN1FbWzJn5igIIIDAhkDsJro+O/vw+fP6AKcHwzChV3ir
+b4Cye600fAQOgEADAu0N3FfGXVdXH1+/fr36LPEeYmH0Q9u7j5XJZAqFwu73nzhx4t69ewcOHHj6
+9GkdGlET9QZTxaR+PryOCTbuMnXh/tdLx/2/GBog4K7uBFbag8F7mYm/FNrjPVrdTbzrzJ2dwc2b
+0QPo8ZEjb5869eOjRztvcfjw/bGx4zEm3vZvSDb+MDAwUPH9N27ciA79zjvvVPzovu+cygZBdmrf
+m7XiBgNnWnEWzoFANYFzlR9iHoH19b0btcH4+PUqHRLvIRbvq7MLFy6sZjLff/99jKoTelM+HxIa
+jJWxvP1saDOgb7/9Lvra6IMP/lklsngPsXhNFJ3yoJUrhT0RQGAfgeiJmqSMYjdRUOl5paSm4TgI
+IGBTIH4T2XRiawQQaKYATdRMXY6NAAK1CdBEtTlxKwQQaKZAS5uoZ6Io4YeJmunJsRFAoB6BljZR
+PQNyHwQQMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mP
+iAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAER
+MCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBA
+ExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkI
+mRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUR
+EC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9A
+E4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mP
+iAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAER
+MCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBA
+ExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkI
+mRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUR
+EC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9A
+E4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mP
+iAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRUREC9AE4mPiAERMCBAExkImRURiCMwPRiWvw1O
+x7lzvbelieqV434I6BVI5xaKG28TPa3YkyZqhTLnQACBvQVoIq4QBBBwL0ATuc+ACRCQJjA7nNp4
+qqg1TxMFNJG0a4B5EHAvUPY8UWueJqKJ3IfOBAggQBNxDSCAgAABvjoTEAIjIGBegCYyfwkAgMB2
+gZ6J4sxQV4tVaKIWg3M6BBCoIEATcVkggIB7AZrIfQZMgAACNBHXAAIIuBeI30Rh6H5qJkAAAV0C
+sZtoVdf+bIMAAnULPHv2rO777rhjtSZaqXiCL74YaysU+vreTer0zo7TXnlBZ/NwYmsC/l+Bp079
+9eDBg59/fqNKdPEeYmH0IiS7D3Thwv2lpeM73t/REXz33YnffrsXBAfOn3/68KG31057sDx5/86u
+Bb3dh8H9E+g/fP+V08eDeI9WQWt2dgY3b7YHweMjR94+derHR492znb48P2xsZ0dstcCm6+HVP4/
+AwNnKr4/eufo6Ojy8sNqH/Xm/eeqLujNCgzqtYD/V+CTJyvXrl2rFsIeHVLxLtW+OovarvLbyMhI
+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
+------=_NextPart_000_7060_A6912DFC.9A0FD92D--
