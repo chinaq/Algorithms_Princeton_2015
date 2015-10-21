@@ -20,20 +20,6 @@ public class KdTree {
             this.isByX = isByX;
             this.N = N;
         }
-        
-        public int compareTo(Node that) {
-            if (this.p.x() == that.p.x() && this.p.y() == that.p.y())
-                return 0;
-            
-            if (isByX) {
-                if (this.p.x() <= that.p.x()) return -1;
-                else return 1;                
-            } else {
-                if (this.p.y() >= that.p.y()) return -1;
-                else return 1;    
-            }
-            
-        }
     }
     
     
@@ -67,54 +53,66 @@ public class KdTree {
     ////////////////// insert //////////////////////////
     
     // add the point to the set (if it is not already in the set)
+    
     public void insert(Point2D p) {
-        ifNullThrowException(p);
-        RectHV rect = new RectHV(0, 0, 1, 1);
-        Node newNode = new Node(p, rect, true, 1);
-        root = put(root, newNode);
+        ifNullThrowException(p);        
+        if (root == null) {
+            RectHV rect = new RectHV(0, 0, 1, 1);
+            Node newNode = new Node(p, rect, true, 1);
+            root = newNode;
+        } else {
+            put(null, root, p);  
+        }        
     }              
     
     
     
-    private Node put(Node father, Node nodeToAdd) {
-        if (father == null) return nodeToAdd;        
+    private Node put(Node father, Node thisNode, Point2D p) {        
         
-        double xmin = father.rect.xmin();
-        double ymin = father.rect.ymin();
-        double xmax = father.rect.xmax();
-        double ymax = father.rect.ymax();
-        double xf = father.p.x();
-        double yf = father.p.y();
-        
-        int cmp = nodeToAdd.compareTo(father);
-        if (cmp == 0) {
-            return father;  
-        } else if (cmp < 0) {
-            if (father.isByX) 
-                renew(nodeToAdd, xmin, ymin, xf, ymax); 
-            else 
-                renew(nodeToAdd, xmin, yf, xmax, ymax); 
-            father.left = put(father.left, nodeToAdd);
-        } else {
-            if (father.isByX) 
-                renew(nodeToAdd, xf, ymin, xmax, ymax); 
-            else 
-                renew(nodeToAdd, xmin, ymin, xmax, yf);            
-            father.right = put(father.right, nodeToAdd);
+        //添加新结点
+        if (thisNode == null) {
+            Node newNode = createNewNode(father, p);
+            return newNode;
         }
         
-        father.N = 1 + size(father.left) + size(father.right);
-        return father;
-    }
-    
-    
-    private void renew(Node nodeToAdd, 
-                       double xmin, double ymin, double xmax, double ymax) {
-        nodeToAdd.rect = new RectHV(xmin, ymin, xmax, ymax);
-        nodeToAdd.isByX = !nodeToAdd.isByX;
-    }
+        int cmp = compare(p, thisNode.p, thisNode.isByX);
+        if (cmp == 0) {
+            return thisNode;  
+        } else if (cmp < 0) {
+            thisNode.left = put(thisNode, thisNode.left, p);
+        } else {           
+            thisNode.right = put(thisNode, thisNode.right, p);
+        }
         
+        thisNode.N = 1 + size(thisNode.left) + size(thisNode.right);
+        return thisNode;        
+    }
     
+    
+    private Node createNewNode(Node father, Point2D p) {
+            double xmin = father.rect.xmin();
+            double ymin = father.rect.ymin();
+            double xmax = father.rect.xmax();
+            double ymax = father.rect.ymax();
+            double xf = father.p.x();
+            double yf = father.p.y();
+            
+            RectHV rect;            
+            int cmp = compare(p, father.p, father.isByX);
+            if (cmp < 0) {
+                if (father.isByX) 
+                    rect = new RectHV(xmin, ymin, xf, ymax); 
+                else 
+                    rect = new RectHV(xmin, yf, xmax, ymax); 
+            } else {
+                if (father.isByX) 
+                    rect = new RectHV(xf, ymin, xmax, ymax); 
+                else 
+                    rect = new RectHV(xmin, ymin, xmax, yf);  
+            }            
+            Node newNode = new Node(p, rect, !father.isByX, 1);
+            return newNode;
+    }
     
     
     
@@ -135,9 +133,9 @@ public class KdTree {
 
     private Node get(Node father, Node node) {
         if (father == null) return null;
-        node.isByX = father.isByX;
+        //node.isByX = father.isByX;
         
-        int cmp = node.compareTo(father);
+        int cmp = compare(node.p, father.p, father.isByX);
         if      (cmp < 0) return get(father.left, node);
         else if (cmp > 0) return get(father.right, node);
         else              return father;
@@ -275,6 +273,20 @@ public class KdTree {
     private void ifNullThrowException(Object para) {
         if (para == null)
             throw new NullPointerException();
+    }
+    
+    
+    
+    private int compare(Point2D p1, Point2D p2, boolean isByX) {        
+        if (p1.x() == p2.x() && p1.y() == p2.y())
+                                  return 0;
+        if (isByX) {
+            if (p1.x() <= p2.x()) return -1;
+            else                  return 1;                
+        } else {
+            if (p1.y() >= p2.y()) return -1;
+            else                  return 1;    
+        } 
     }
     
 }
