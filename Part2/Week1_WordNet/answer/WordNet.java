@@ -1,6 +1,7 @@
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.LinearProbingHashST;
+import edu.princeton.cs.algs4.DirectedCycle;
 import java.util.ArrayList;
 
 
@@ -106,6 +107,23 @@ public class WordNet {
     private void ifNounNotInThrowException(String word) {
         if (!isNoun(word)) 
             throw new IllegalArgumentException();
+    }
+    
+    
+    private void ifNotDagThrowException(Digraph g) {
+        DirectedCycle cycle = new DirectedCycle(g);
+        if (cycle.hasCycle() || !isOnlyOneRoot(g))
+            throw new IllegalArgumentException();
+    }
+    
+    private boolean isOnlyOneRoot(Digraph g) {
+        int total = 0;
+        for (int i = 0; i < g.V(); i++) {
+            if (g.outdegree(i) == 0)
+                total++;
+        }
+        
+        return total == 1;
     }
     
     
