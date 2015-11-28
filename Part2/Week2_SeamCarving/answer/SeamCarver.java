@@ -13,11 +13,19 @@ public class SeamCarver {
     private int[] verticalSeamCache;
     
     private Picture pic;
+    //private double[][] energiesOrig;
+    //private double[][] energiesTrans;
+
     private double[][] energiesOrig;
     private double[][] energiesTrans;
-    private Color[][] colorsOrig;
-    private Color[][] colorsTrans;
-    
+//    private Color[][] colorsOrig;
+//    private Color[][] colorsTrans;
+    private byte[][] origR;
+    private byte[][] origG;
+    private byte[][] origB;
+    private byte[][] transR;
+    private byte[][] transG;
+    private byte[][] transB;
     
     private int height;
     private int width;
@@ -36,7 +44,7 @@ public class SeamCarver {
         
         this.height = pic.height();
         this.width = pic.width();
-        //setHeightWidth(pic.height(), pic.width());
+        
         setToOrig();
     }                
     
@@ -80,7 +88,8 @@ public class SeamCarver {
         pic = new Picture(width, height);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                pic.set(i, j, colorsOrig[i][j]);
+                //pic.set(i, j, colorsOrig[i][j]);
+                pic.set(i, j, new Color(0xff&origR[i][j], 0xff&origG[i][j], 0xff&origB[i][j]));
             }
         }            
         isInPic = true;
@@ -91,14 +100,21 @@ public class SeamCarver {
     
     private void setFromTransToOrig() {
         energiesOrig = new double[width][height];
-        colorsOrig = new Color[width][height];
+        //colorsOrig = new Color[width][height];
+        origR = new byte[width][height];
+        origG = new byte[width][height];
+        origB = new byte[width][height];
+        
         
         Rotater r = new Rotater(height, width);            
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) { 
                 Position p = r.rotate(i, j);
                 energiesOrig[p.getX()][p.getY()] = energiesTrans[i][j];
-                colorsOrig[p.getX()][p.getY()] = colorsTrans[i][j];
+                //colorsOrig[p.getX()][p.getY()] = colorsTrans[i][j];
+                origR[p.getX()][p.getY()] = transR[i][j];
+                origG[p.getX()][p.getY()] = transG[i][j];
+                origB[p.getX()][p.getY()] = transB[i][j];
             }
         }
         isInArrayOrig = true;
@@ -107,11 +123,21 @@ public class SeamCarver {
     
     private void setFromPicToOrig() {
             energiesOrig = new double[width][height];
-            colorsOrig = new Color[width][height];
+            //colorsOrig = new Color[width][height];
+            origR = new byte[width][height];
+            origG = new byte[width][height];
+            origB = new byte[width][height];
+            
+            
+            
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < height; j++) {                
-                    colorsOrig[i][j] = pic.get(i, j);
-                        
+                    //colorsOrig[i][j] = pic.get(i, j);
+                    origR[i][j] = (byte)pic.get(i, j).getRed();
+                    origG[i][j] = (byte)pic.get(i, j).getGreen();
+                    origB[i][j] = (byte)pic.get(i, j).getBlue();
+                    
+                    
                     if (i == 0 || j == 0 || i == width -1 || j == height -1) {
                         energiesOrig[i][j] = 1000f;
                     } else {
@@ -132,20 +158,29 @@ public class SeamCarver {
                 }
             }
             isInArrayOrig = true;
+            
+            pic = null;
+            isInPic = false;
     }
     
     
     
     private void setFromOrigToTrans() {
         energiesTrans = new double[height][width];
-        colorsTrans = new Color[height][width];
+        //colorsTrans = new Color[height][width];
+        transR = new byte[height][width];
+        transG = new byte[height][width];
+        transB = new byte[height][width];
         
         Rotater r = new Rotater(width, height);            
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) { 
                 Position p = r.contraRotate(i, j);
                 energiesTrans[p.getX()][p.getY()] = energiesOrig[i][j];
-                colorsTrans[p.getX()][p.getY()] = colorsOrig[i][j];
+                //colorsTrans[p.getX()][p.getY()] = colorsOrig[i][j];
+                transR[p.getX()][p.getY()] = origR[i][j];
+                transG[p.getX()][p.getY()] = origG[i][j];
+                transB[p.getX()][p.getY()] = origB[i][j];            
             }
         }
         isInArrayTrans = true;
@@ -234,22 +269,37 @@ public class SeamCarver {
         int[] removes = seam;        
         int newHeight = height - 1;        
         double[][] tempEnergies = new double[width][newHeight];
-        Color[][] tempColors = new Color[width][newHeight];
+        //Color[][] tempColors = new Color[width][newHeight];
+        byte[][] tempR = new byte[width][newHeight];
+        byte[][] tempG = new byte[width][newHeight];
+        byte[][] tempB = new byte[width][newHeight];
+        
         for (int i = 0; i < width; i++) {
             int middle = removes[i];
             //int middle = removes[width - 1 - i];
             if (middle > 0) {
                 System.arraycopy(energiesOrig[i], 0, tempEnergies[i], 0, middle);
-                System.arraycopy(colorsOrig[i], 0, tempColors[i], 0, middle);                
+                //System.arraycopy(colorsOrig[i], 0, tempColors[i], 0, middle); 
+                System.arraycopy(origR[i], 0, tempR[i], 0, middle);
+                System.arraycopy(origG[i], 0, tempG[i], 0, middle);
+                System.arraycopy(origB[i], 0, tempB[i], 0, middle);
+                
             } 
             if (middle < height - 1) {
                 System.arraycopy(energiesOrig[i], middle + 1, tempEnergies[i], middle, height - 1 - middle);
-                System.arraycopy(colorsOrig[i], middle + 1, tempColors[i], middle, height - 1 - middle);
+                //System.arraycopy(colorsOrig[i], middle + 1, tempColors[i], middle, height - 1 - middle);
+                System.arraycopy(origR[i], middle + 1, tempR[i], middle, height - 1 - middle);
+                System.arraycopy(origG[i], middle + 1, tempG[i], middle, height - 1 - middle);
+                System.arraycopy(origB[i], middle + 1, tempB[i], middle, height - 1 - middle);
             }
         }
         
         energiesOrig = tempEnergies;
-        colorsOrig = tempColors;
+        //colorsOrig = tempColors;
+        origR = tempR;
+        origG = tempG;
+        origB = tempB;
+        
         height = newHeight;        
     }
     
@@ -261,31 +311,59 @@ public class SeamCarver {
 //            int y2 = removes[width - 1 - i];
             int y1 = removes[i] - 1;
             int y2 = removes[i];            
-            updateEnergyPoint(i, y1, width, height, energiesOrig, colorsOrig);
-            updateEnergyPoint(i, y2, width, height, energiesOrig, colorsOrig);
+//            updateEnergyPoint(i, y1, width, height, energiesOrig, colorsOrig);
+//            updateEnergyPoint(i, y2, width, height, energiesOrig, colorsOrig);
+              updateEnergyPoint(i, y1, width, height, energiesOrig, 
+                                origR, origG, origB);
+              updateEnergyPoint(i, y2, width, height, energiesOrig, 
+                                origR, origG, origB);
         }
     }
     
     
     
-    private void updateEnergyPoint(int x, int y, int maxX, int maxY, 
-                                   double[][] energies, Color[][] colors) {
+//    private void updateEnergyPoint(int x, int y, int maxX, int maxY, 
+//                                   double[][] energies, Color[][] colors) {
+        private void updateEnergyPoint(int x, int y, int maxX, int maxY, 
+                                   double[][] energies, 
+                                       byte[][] R,  byte[][] G,  byte[][] B) {
         if (x < 0 || y < 0 || x > maxX - 1 || y > maxY - 1)
             return;
         
         if (x == 0 || y == 0 || x == maxX -1 || y == maxY - 1) {
             energies[x][y] = 1000;
         } else {
-            Color up = colors[x-1][y];
-            Color down = colors[x+1][y];
-            Color left = colors[x][y-1];
-            Color right = colors[x][y+1];
-            double rx = up.getRed()-down.getRed();
-            double gx = up.getGreen()-down.getGreen();
-            double bx = up.getBlue()-down.getBlue();
-            double ry = left.getRed()-right.getRed();
-            double gy = left.getGreen()-right.getGreen();
-            double by = left.getBlue()-right.getBlue();
+//            Color up = colors[x-1][y];
+//            Color down = colors[x+1][y];
+//            Color left = colors[x][y-1];
+//            Color right = colors[x][y+1];
+            byte upR = R[x-1][y];
+            byte upG = G[x-1][y];
+            byte upB = B[x-1][y];
+            byte downR = R[x+1][y];
+            byte downG = G[x+1][y];
+            byte downB = B[x+1][y];
+            byte leftR = R[x][y-1];
+            byte leftG = G[x][y-1];
+            byte leftB = B[x][y-1];
+            byte rightR = R[x][y+1];
+            byte rightG = G[x][y+1];
+            byte rightB = B[x][y+1];
+            
+//            double rx = up.getRed()-down.getRed();
+//            double gx = up.getGreen()-down.getGreen();
+//            double bx = up.getBlue()-down.getBlue();
+//            double ry = left.getRed()-right.getRed();
+//            double gy = left.getGreen()-right.getGreen();
+//            double by = left.getBlue()-right.getBlue();
+            
+            double rx = upR - downR;
+            double gx = upG - downG;
+            double bx = upB - downB;
+            double ry = leftR - rightR;
+            double gy = leftG - rightG;
+            double by = leftB - rightB;
+            
             energies[x][y] = Math.sqrt(rx*rx + gx*gx + bx*bx 
                                            + ry*ry + gy*gy + by*by); 
         }
@@ -327,22 +405,36 @@ public class SeamCarver {
         int[] removes = seam;        
         int newWidth = width - 1;        
         double[][] tempEnergies = new double[height][newWidth];
-        Color[][] tempColors = new Color[height][newWidth];
+        //Color[][] tempColors = new Color[height][newWidth];
+        byte[][] tempR = new byte[height][newWidth];
+        byte[][] tempG = new byte[height][newWidth];
+        byte[][] tempB = new byte[height][newWidth];
+        
         for (int i = 0; i < height; i++) {
             //int middle = removes[i];
             int middle = removes[height - 1 - i];
             if (middle > 0) {
                 System.arraycopy(energiesTrans[i], 0, tempEnergies[i], 0, middle);
-                System.arraycopy(colorsTrans[i], 0, tempColors[i], 0, middle);                
+                //System.arraycopy(colorsTrans[i], 0, tempColors[i], 0, middle);                
+                System.arraycopy(transR[i], 0, tempR[i], 0, middle);
+                System.arraycopy(transG[i], 0, tempG[i], 0, middle);
+                System.arraycopy(transB[i], 0, tempB[i], 0, middle);
             } 
             if (middle < width - 1) {
                 System.arraycopy(energiesTrans[i], middle + 1, tempEnergies[i], middle, width - 1 - middle);
-                System.arraycopy(colorsTrans[i], middle + 1, tempColors[i], middle, width - 1 - middle);
+                //System.arraycopy(colorsTrans[i], middle + 1, tempColors[i], middle, width - 1 - middle);
+                System.arraycopy(transR[i], middle + 1, tempR[i], middle, width - 1 - middle);
+                System.arraycopy(transG[i], middle + 1, tempG[i], middle, width - 1 - middle);
+                System.arraycopy(transB[i], middle + 1, tempB[i], middle, width - 1 - middle);
             }
         }
         
         energiesTrans = tempEnergies;
-        colorsTrans = tempColors;
+        //colorsTrans = tempColors;
+        transR = tempR;
+        transG = tempG;
+        transB = tempB;
+        
         width = newWidth;   
     }
     
@@ -354,8 +446,10 @@ public class SeamCarver {
             //int y2 = removes[i];            
             int y1 = removes[height - 1 - i] - 1;
             int y2 = removes[height - 1 - i];            
-            updateEnergyPoint(i, y1, height, width, energiesTrans, colorsTrans);
-            updateEnergyPoint(i, y2, height, width, energiesTrans, colorsTrans);
+//            updateEnergyPoint(i, y1, height, width, energiesTrans, colorsTrans);
+//            updateEnergyPoint(i, y2, height, width, energiesTrans, colorsTrans);
+            updateEnergyPoint(i, y1, height, width, energiesTrans, transR, transG, transB);
+            updateEnergyPoint(i, y2, height, width, energiesTrans, transR, transG, transB);
         }
     }
    
