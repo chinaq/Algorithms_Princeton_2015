@@ -1,0 +1,309 @@
+From: <Saved by Blink>
+Subject: Programming Assignment Checklist: Boggle
+Date: Wed, 15 Dec 2015 02:42:18 -0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----=_NextPart_000_C7A8_AA429EEA.301F491C"
+
+------=_NextPart_000_C7A8_AA429EEA.301F491C
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://coursera.cs.princeton.edu/algs4/checklists/boggle.html
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
+=3DUTF-8">
+<title>
+Programming Assignment Checklist: Boggle
+</title>
+</head>
+
+<body><div id=3D"lingualy-logged-in" style=3D"display:none;"></div><div id=
+=3D"lingualy-installed" style=3D"display:none;"></div><div id=3D"lingualypo=
+pup" class=3D"lingualy_popup" style=3D"display:none;"></div>
+<h3>
+Programming Assignment Checklist: Boggle
+</h3>
+
+<p lingdex=3D"0"><br>
+<font color=3D"green">UNDER CONSTRUCTION</font>
+
+</p><p lingdex=3D"1"><br>
+
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center>Frequently Asked Questions</center>
+</font></td></tr></tbody></table>
+
+</p><p lingdex=3D"2"><b>If a valid word can be formed in more than one way,=
+ how many times should I return it?</b>
+Only once. For example, you should return the word <tt>EQUATION</tt> only o=
+nce in=20
+<a href=3D"http://coursera.cs.princeton.edu/algs4/testing/boggle/board-q.tx=
+t">board-q.txt</a> even though there are two
+ways to form it.
+
+</p><p lingdex=3D"3"><b>Do In need to return the words in alphabetical orde=
+r?</b>
+No, that is not required.
+
+</p><p lingdex=3D"4"><b>Which data structure(s) should I use to store the d=
+ictionary?</b>
+It is up to you to decide. A trie is a natural starting point.
+
+</p><p lingdex=3D"5"><b>My program isn't fast enough to get 100%. What can =
+I do to improve performance?</b>
+See the <em>Possible Optimizations</em> section below for some ideas. It ma=
+y be a challenge.
+
+
+</p><p lingdex=3D"6">
+
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center>Input, Output, and Testing</center>
+</font></td></tr></tbody></table>
+
+</p><p lingdex=3D"7">
+The directory
+<a href=3D"http://coursera.cs.princeton.edu/algs4/testing/boggle/">boggle</=
+a>
+contains some sample dictionaries and boards for testing.
+For convenience,
+<a href=3D"http://coursera.cs.princeton.edu/algs4/testing/boggle-testing.zi=
+p">boggle-testing.zip</a>
+contains all of these files bundled together.
+
+</p><p lingdex=3D"8"><b>Dictionaries.</b>
+Below are some dictionaries for testing. Each dictionary consists of a sequ=
+ence
+of words containing only the uppercase letters <tt>A</tt> through <tt>Z</tt=
+>,
+separated by whitespace,=20
+and in alphabetical order.
+
+</p><blockquote>
+<table cellspacing=3D"1" cellpadding=3D"5" border=3D"0" bgcolor=3D"#FFFFFF"=
+>
+
+<tbody><tr bgcolor=3D"#666666" align=3D"center">
+<th><font color=3D"white">file</font></th>
+<th><font color=3D"white">words</font></th>
+<th><font color=3D"white">description</font></th>
+</tr>
+
+<tr bgcolor=3D"#ebebeb" align=3D"center">
+<td><a href=3D"http://coursera.cs.princeton.edu/algs4/testing/boggle/dictio=
+nary-nursery.txt">dictionary-nursery.txt</a>
+</td><td>1,647</td>
+<td>words that appear in several popular nursery rhymes</td>
+</tr>
+
+
+<tr bgcolor=3D"#ebebeb" align=3D"center">
+<td><a href=3D"http://coursera.cs.princeton.edu/algs4/testing/boggle/dictio=
+nary-algs4.txt">dictionary-algs4.txt</a>
+</td><td>6,013</td>
+<td>words that appear in Algorithms 4/e</td>
+</tr>
+
+<tr bgcolor=3D"#ebebeb" align=3D"center">
+<td><a href=3D"http://coursera.cs.princeton.edu/algs4/testing/boggle/dictio=
+nary-common.txt">dictionary-common.txt</a>
+</td><td>20,068</td>
+<td>a list of common English words</td>
+</tr>
+
+<tr bgcolor=3D"#ebebeb" align=3D"center">
+<td><a href=3D"http://coursera.cs.princeton.edu/algs4/testing/boggle/dictio=
+nary-shakespeare.txt">dictionary-shakespeare.txt</a>
+</td><td>23,688</td>
+<td>&nbsp;&nbsp;words that appear in the complete works of William Shakespe=
+are&nbsp;&nbsp;</td>
+</tr>
+
+<tr bgcolor=3D"#ebebeb" align=3D"center">
+<td><a href=3D"http://coursera.cs.princeton.edu/algs4/testing/boggle/dictio=
+nary-enable2k.txt">dictionary-enable2k.txt</a></td>
+<td>173,528</td>
+<td>Enhanced North American Benchmark Lexicon</td>
+</tr>
+
+<tr bgcolor=3D"#ebebeb" align=3D"center">
+<td><a href=3D"http://coursera.cs.princeton.edu/algs4/testing/boggle/dictio=
+nary-twl06.txt">dictionary-twl06.txt</a>
+</td><td>178,691</td>
+<td><a href=3D"http://en.wikipedia.org/wiki/Official_Tournament_and_Club_Wo=
+rd_List">Tournament Word List</a></td>
+</tr>
+
+<tr bgcolor=3D"#ebebeb" align=3D"center">
+<td><a href=3D"http://coursera.cs.princeton.edu/algs4/testing/boggle/dictio=
+nary-yawl.txt">dictionary-yawl.txt</a>
+</td><td>264,061</td>
+<td><a href=3D"http://www.cs.duke.edu/csed/data/yawl-0.3.2/">Yet Another Wo=
+rd List</a></td>
+</tr>
+
+<tr bgcolor=3D"#ebebeb" align=3D"center">
+<td><a href=3D"http://coursera.cs.princeton.edu/algs4/testing/boggle/dictio=
+nary-sowpods.txt">dictionary-sowpods.txt</a>
+</td><td>267,751</td>
+<td>the <a href=3D"http://en.wikipedia.org/wiki/SOWPODS">SOWPODS</a> list o=
+f words</td>
+</tr>
+
+<tr bgcolor=3D"#ebebeb" align=3D"center">
+<td>&nbsp;&nbsp;<a href=3D"http://coursera.cs.princeton.edu/algs4/testing/b=
+oggle/dictionary-zingarelli2005.txt">dictionary-zingarelli2005.txt</a>&nbsp=
+;&nbsp;
+</td><td>&nbsp;&nbsp;584,983&nbsp;&nbsp;</td>
+<td>Italian Scrabble Dictionary</td>
+</tr>
+
+</tbody></table>
+</blockquote>
+
+
+   =20
+
+<p lingdex=3D"9"><b>Boards.</b>
+We provide a number of boards for testing. The boards named <tt>boards-poin=
+ts[xxxx].txt</tt>
+are Boggle board that results in a maximum score of <tt>xxxx</tt> points us=
+ing the dictionary
+<a href=3D"http://coursera.cs.princeton.edu/algs4/testing/boggle/dictionary=
+-yawl.txt">dictionary-yawl.txt</a>. The other boards are designed
+to test various corner cases, including dealing with the two-letter sequenc=
+e <tt>Qu</tt> and
+boards of dimensions other than 4-by-4.
+
+</p><ul>
+
+</ul>
+
+
+
+<p lingdex=3D"10">
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center>Possible progress steps</center>
+</font></td></tr></tbody></table>
+
+</p><p lingdex=3D"11">
+
+These are purely suggestions for how you might make progress. You do not ha=
+ve to follow these steps.
+
+
+</p><ul>
+
+<!--<p><li>
+Download the zip file
+<a href =3D "http://coursera.cs.princeton.edu/algs4/testing/boggle-testing.=
+zip">boggle-testing.zip</a>.
+It contains sample dictionaries and boards for testing.
+-->
+
+<p lingdex=3D"12"></p><li>
+Familiarize yourself with the <a href=3D"http://coursera.cs.princeton.edu/a=
+lgs4/testing/boggle/BoggleBoard.java">BoggleBoard.java</a>
+data type.
+
+<p lingdex=3D"13"></p></li><li>
+Use a standard set data type to represent the dictionary, e.g.,
+a <tt>SET&lt;String&gt;</tt>, a
+<tt>TreeSet&lt;String&gt;</tt>, or a <tt>HashSet&lt;String&gt;</tt>.
+
+<p lingdex=3D"14"></p></li><li>
+Create the data type <tt>BoggleSolver</tt>.
+Write a method based on depth-first search to enumerate all strings that
+can be composed by following sequences of adjacent dice. That is, enumerate
+all simple paths in the Boggle graph (but there is no need to explicitly
+form the graph).
+For now, ignore the special two-letter sequence <tt>Qu</tt>.
+
+<p lingdex=3D"15"></p></li><li>
+Now, implement the following critical backtracking optimization:
+<em>when the current path corresponds to a string that is not a prefix
+of any word in the dictionary, there is no need to expand the
+path further</em>. To do this, you will need to create a data structure
+for the dictionary that supports the <em>prefix query</em> operation:
+given a prefix, is there any word in the dictionary that starts with that p=
+refix?
+
+<p lingdex=3D"16"></p></li><li>
+Deal with the special two-letter sequence <tt>Qu</tt>.
+
+
+</li></ul>
+
+
+<p lingdex=3D"17">
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center>Possible Optimizations</center>
+</font></td></tr></tbody></table>
+
+</p><p lingdex=3D"18">
+You will likely need to optimize some aspects of your program
+to pass all of the performance points (which are, intentionally,
+more challenging on this assignment). Here are a few ideas:
+
+</p><ul>
+
+<p lingdex=3D"19"></p><li> Make sure that you have implemented the critical=
+ backtracking optimization
+described above. This is, by far, the most important step=E2=80=94several o=
+rders
+of magnitude!
+
+<p lingdex=3D"20"></p></li><li> Think about whether you can implement the d=
+ictionary in a more
+efficient manner. Recall that the alphabet consists of only the 26 letters
+<tt>A</tt> through <tt>Z</tt>.
+
+<p lingdex=3D"21"></p></li><li> Exploit that fact that when you perform a <=
+em>prefix query</em> operation,
+it is usually almost identical to the previous <em>prefix query</em>,
+except that it is one letter longer.
+
+<p lingdex=3D"22"></p></li><li> Precompute the Boggle graph, i.e., the set =
+of cubes adjacent to each cube.
+But don't necessarily use a heavyweight <tt>Graph</tt> object.
+
+<p lingdex=3D"23"></p></li><li> Consider a nonrecursive implementation of t=
+he <em>prefix query</em>
+operation.
+
+<p lingdex=3D"24"></p></li><li> Consider a nonrecursive implementing of dep=
+th-first search.
+
+</li></ul>
+
+
+<!--
+<p>
+<TABLE BORDER =3D 0 CELLPADDING =3D 2 CELLSPACING =3D 0 WIDTH =3D 100%>
+<tr align =3D left>
+<td bgcolor =3D "000000">
+<font size =3D +0 face =3D "helvetica" color =3D "ffffff">
+<center>Enrichment</center>
+</table>
+-->
+<style type=3D"text/css">.lingualy-translate-close {background: url("chrome=
+-extension://iilcekgoelpgecpjnnoikhbleipnjdhf/lookup/assets/translate/x_nor=
+mal.png") no-repeat;}.lingualy-translate-close:hover {background: url("chro=
+me-extension://iilcekgoelpgecpjnnoikhbleipnjdhf/lookup/assets/translate/x_o=
+ver.png");}.lingualy_popup .lingualy_close {background: url("chrome-extensi=
+on://iilcekgoelpgecpjnnoikhbleipnjdhf/lookup/assets/andy-sprite.png") no-re=
+peat 0 -50px;}</style></body></html>
+------=_NextPart_000_C7A8_AA429EEA.301F491C--

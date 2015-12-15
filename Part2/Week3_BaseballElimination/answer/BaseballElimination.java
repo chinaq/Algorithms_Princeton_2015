@@ -107,14 +107,23 @@ public class BaseballElimination {
                     net.addEdge(edgeTeam2);                   
                 }
             }
-            
-            //添加Team到结束点的Edge
-            int vTeam = netGamesCount + 1 + i;
-            int cap = wins[x] + left[x] - wins[i];
-            FlowEdge edgeEnd = new FlowEdge(vTeam, netTotalCount - 1, cap);
-            net.addEdge(edgeEnd); 
         }        
         
+        
+        for (int i = 0; i < total; i++) {        
+            if (i != x) {
+                //添加Team到结束点的Edge
+                int vTeam = netGamesCount + 1 + i;
+                if (i > x) vTeam--;
+                int cap = wins[x] + left[x] - wins[i];
+                FlowEdge edgeEnd = new FlowEdge(vTeam, netTotalCount - 1, cap);
+                net.addEdge(edgeEnd); 
+            }
+        }
+        
+        
+        
+        //StdOut.println(strTeams[x] + " " + x);
         //StdOut.println(net.toString());        
         
         //计算ff
@@ -130,10 +139,9 @@ public class BaseballElimination {
             }
         }
                 
-        if (ff.value() < allNetGamesExpected) {
+        if (ff.value() < allNetGamesExpected) {            
+            isEliminated[x] = true;            
             certificate.set(x, new ArrayList<String>()); 
-            
-            isEliminated[x] = true;
             for (int i = netGamesCount + 1; i < netTotalCount - 1; i++) {
                 if (ff.inCut(i)) {
                     int teamNo = i - (netGamesCount + 1);
