@@ -6,42 +6,43 @@ import java.util.ArrayList;
 
 public class BoggleSolver
 {
-    private String[] arrayDic;
-    private LinearProbingHashST<String, Integer> dictionary;    
+    //private String[] arrayDic;
+    //private LinearProbingHashST<String, Integer> dictionary;    
+    private TrieSetQ set;
     
-    // Initializes the data structure using the given array of strings 
-    // as the dictionary.
-    // (You can assume each word in the dictionary contains 
-    // only the uppercase letters A through Z.)
+    
     public BoggleSolver(String[] dictionary) {
-        this.arrayDic = dictionary;
-        this.dictionary = new LinearProbingHashST<String, Integer>();        
-        for (int i = 0; i < dictionary.length; i++) {
-            this.dictionary.put(dictionary[i], i);            
-        }
+        //this.arrayDic = dictionary;
+        this.set = new TrieSetQ(dictionary);
+//        this.dictionary = new LinearProbingHashST<String, Integer>();        
+//        for (int i = 0; i < dictionary.length; i++) {
+//            this.dictionary.put(dictionary[i], i);            
+//        }
     }
 
         
     // Returns the set of all valid words in the given Boggle board, as an Iterable.
     public Iterable<String> getAllValidWords(BoggleBoard board) {
         //生成所有可出现的单词，使用dfs处理board
-        DepthFirstPathsQ dfs = new DepthFirstPathsQ(board);
+        DepthFirstPathsQ dfs = new DepthFirstPathsQ(set, board);
         Iterable<String> result = dfs.getAllWords(); 
+        return result;
         
-        ArrayList<String> temp = new ArrayList<String>();
-        for (String str: result) {
-            if (str.length() >=3 && dictionary.contains(str))
-                temp.add(str);
-        }
-        
-        return temp;
+//        ArrayList<String> temp = new ArrayList<String>();
+//        for (String str: result) {
+//            if (str.length() >=3 && dictionary.contains(str))
+//                temp.add(str);
+//        }
+//        
+//        return temp;
     }
 
         
         
-    // Returns the score of the given word if it is in the dictionary, zero otherwise.
-    // (You can assume the word contains only the uppercase letters A through Z.)
+    
     public int scoreOf(String word) {
+        if (!set.contains(word)) return 0;
+        
         int len = word.length();
         if      (len <= 2) return 0;
         else if (len <= 4) return 1;

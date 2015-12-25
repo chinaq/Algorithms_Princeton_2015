@@ -1,0 +1,98 @@
+import edu.princeton.cs.algs4.BinaryStdIn;
+import edu.princeton.cs.algs4.BinaryStdOut;
+
+public class MoveToFront {
+    // apply move-to-front encoding, reading from standard 
+    // input and writing to standard output
+    public static void encode() {        
+        String s = BinaryStdIn.readString();
+        char[] in = s.toCharArray();
+        char[] out = new char[in.length];
+        
+        //创建标准
+        char[] standPos = new char[256];    //第i个字母，在第几位
+        char[] standVal = new char[256];    //第i位，是什么字母
+        for (char i = 0; i < 256; i++) {
+            standPos[i] = i;
+            standVal[i] = i;
+        }
+        
+        for (char i = 0; i < in.length; i++) {
+            char temp = in[i];
+            out[i] = standPos[temp];
+            
+            char lastPos = standPos[temp];
+            standPos[temp] = 0; //将第i个字母的位置设置为0
+            for (int j = 0; j < lastPos; j++) {  //将位置小于i的字母的位置都+1
+                standPos[standVal[j]]++;
+            }
+            
+            //重新设置i以前位置上的值
+            char lastVal = standVal[0];
+            standVal[0] = in[i];            
+            for (int j = 1; j <= lastPos; j++) {
+                char tempC = standVal[j];
+                standVal[j] = lastVal;
+                lastVal = tempC;
+            }  
+            
+        }
+        
+        for (int i = 0; i < out.length; i++) {
+            BinaryStdOut.write(out[i]);
+        }
+        BinaryStdOut.close();
+        
+    }
+
+    // apply move-to-front decoding, reading from standard 
+    // input and writing to standard output
+    public static void decode() {
+        String s = BinaryStdIn.readString();
+        char[] in = s.toCharArray();
+        char[] out = new char[in.length];
+        
+        //创建标准
+        char[] standPos = new char[256];    //第i个字母，在第几位
+        char[] standVal = new char[256];    //第i位，是什么字母
+        for (char i = 0; i < 256; i++) {
+            standPos[i] = i;
+            standVal[i] = i;
+        }
+        
+        for (char i = 0; i < in.length; i++) {
+            char temp = in[i];
+            out[i] = standVal[temp];
+            
+            char lastPos = in[i];
+            standPos[temp] = 0; //将第i个字母的位置设置为0
+            for (int j = 0; j < lastPos; j++) {  //将位置小于i的字母的位置都+1
+                standPos[standVal[j]]++;
+            }
+            
+            //重新设置i以前位置上的值
+            char lastVal = standVal[0];
+            standVal[0] = standVal[temp];            
+            for (int j = 1; j <= lastPos; j++) {
+                char tempC = standVal[j];
+                standVal[j] = lastVal;
+                lastVal = tempC;
+            }  
+            
+        }
+        
+        for (int i = 0; i < out.length; i++) {
+            BinaryStdOut.write(out[i]);
+        }
+        BinaryStdOut.close();
+    }
+
+    // if args[0] is '-', apply move-to-front encoding
+    // if args[0] is '+', apply move-to-front decoding
+    public static void main(String[] args) {
+        if (args[0].equals("-"))
+            encode();
+        else if (args[0].equals("+"))
+            decode();
+    }
+}

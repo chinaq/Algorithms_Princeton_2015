@@ -1,0 +1,106 @@
+import edu.princeton.cs.algs4.BinaryStdIn;
+import edu.princeton.cs.algs4.BinaryStdOut;
+import edu.princeton.cs.algs4.LinearProbingHashST;
+import edu.princeton.cs.algs4.Stack;
+import edu.princeton.cs.algs4.Queue; 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+
+
+public class BurrowsWheeler {
+    
+    // apply Burrows-Wheeler encoding, reading from standard input 
+    // and writing to standard output
+    public static void encode() {
+        //StdOut.println("encode");
+        
+        int first = 0;
+        String s = BinaryStdIn.readString();
+        CircularSuffixArray csa = new CircularSuffixArray(s);
+        for (int i = 0; i < s.length(); i++) {
+            if (csa.index(i) == 0) {
+                first = i;
+            }
+        }
+        BinaryStdOut.write(first);
+        
+        for (int i = 0; i < s.length(); i++) {            
+            int tempPos = ((csa.index(i)) + s.length() - 1) % s.length();
+            BinaryStdOut.write(s.charAt(tempPos));     
+        }           
+        BinaryStdOut.close();
+    }
+
+    
+    // apply Burrows-Wheeler decoding, reading from standard input
+    // and writing to standard output
+    public static void decode() {
+        int first = BinaryStdIn.readInt();
+        ArrayList<Character> listT = new ArrayList<Character>();
+        while(!BinaryStdIn.isEmpty()){
+            listT.add(BinaryStdIn.readChar());
+        }
+        int length = listT.size();
+        
+        char[] f = new char[length];
+        int[] next = new int[length];
+        LinearProbingHashST<Character, Queue<Integer>> stLastCol
+            = new LinearProbingHashST<Character, Queue<Integer>>();
+        char[] oChars = new char[length];
+        
+        
+        //读取最后一列
+        for (int i = 0; i < length; i++) {
+            if (stLastCol.contains(listT.get(i)))
+                stLastCol.get(listT.get(i)).enqueue(i);
+            else {
+                Queue<Integer> q = new Queue<Integer>();
+                q.enqueue(i);
+                stLastCol.put(listT.get(i), q); 
+            }
+        }
+        
+        
+        //第一列
+        for (int i = 0; i < length; i++) {
+            f[i] = listT.get(i);
+        }
+        Arrays.sort(f);
+
+        
+        //计算next
+        for (int i = 0; i < length; i++) {
+            next[i] = stLastCol.get(f[i]).dequeue();
+        }
+        
+        
+        //计算oChar
+        oChars[0] = f[first];
+        oChars[length - 1] = listT.get(first);
+        
+        int tempNext = next[first];
+        for (int i = 1; i < length - 1; i++) {
+            oChars[i] = f[tempNext];
+            tempNext = next[tempNext];
+        }
+        
+        //输出
+        for (int i = 0; i < length; i++) {
+            BinaryStdOut.write(oChars[i]);
+        }        
+        BinaryStdOut.close();
+    }
+    
+    
+    
+
+    // if args[0] is '-', apply Burrows-Wheeler encoding
+    // if args[0] is '+', apply Burrows-Wheeler decoding
+    public static void main(String[] args) {
+        if (args[0].equals("-"))
+            encode();
+        else if (args[0].equals("+"))
+            decode();
+    }
+}

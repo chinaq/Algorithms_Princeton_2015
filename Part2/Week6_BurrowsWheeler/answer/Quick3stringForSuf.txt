@@ -1,0 +1,80 @@
+import edu.princeton.cs.algs4.StdRandom;
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
+
+
+
+public class Quick3stringForSuf {
+    private static final int CUTOFF =  15;   // cutoff to insertion sort
+    private String strForSuf;
+    private int[] oIndex;
+    private int[] rIndex;
+
+    // do not instantiate
+    public Quick3stringForSuf(String str) {
+        this.strForSuf = str;
+        this.oIndex = new int[str.length()];
+        this.rIndex = new int[str.length()];
+        for (int i = 0; i < oIndex.length; i++) {
+            oIndex[i] = i;
+            rIndex[i] = i;
+        }
+    } 
+
+
+    
+    public static void sort(String str) {
+        StdRandom.shuffle(rIndex);
+        sort(rIndex, 0, strForSuf.length()-1, 0);
+        assert isSorted(a);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        // return the dth character of s, -1 if d = length of s
+    private static int charAt(int sPos, int d) { 
+        if (d == strForSuf.length()) return -1;
+        return strForSuf.charAt(d % strForSuf.length());
+    }
+
+
+    // 3-way string quicksort a[lo..hi] starting at dth character
+    private static void sort(int[] index, int lo, int hi, int d) { 
+
+        // cutoff to insertion sort for small subarrays
+        if (hi <= lo + CUTOFF) {
+            insertion(index, lo, hi, d);
+            return;
+        }
+
+        int lt = lo, gt = hi;
+        int v = charAt(a[lo], d);
+        int i = lo + 1;
+        while (i <= gt) {
+            int t = charAt(a[i], d);
+            if      (t < v) exch(a, lt++, i++);
+            else if (t > v) exch(a, i, gt--);
+            else              i++;
+        }
+
+        // a[lo..lt-1] < v = a[lt..gt] < a[gt+1..hi]. 
+        sort(a, lo, lt-1, d);
+        if (v >= 0) sort(a, lt, gt, d+1);
+        sort(a, gt+1, hi, d);
+    }
+    
+    
+    
+    
+}
